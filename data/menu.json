@@ -1,0 +1,34 @@
+{
+  "menu": [
+    {
+      "name": "Americano",
+      "description": "A clean, bold espresso with hot water",
+      "price_cents": 2000,
+      "available": true
+    },
+    {
+      "name": "Cappuccino",
+      "description": "Espresso with velvety steamed milk and a thick layer of foam",
+      "price_cents": 2000,
+      "available": true
+    },
+    {
+      "name": "Hot Chocolate",
+      "description": "Rich, creamy hot chocolate — a crowd favourite",
+      "price_cents": 2000,
+      "available": true
+    },
+    {
+      "name": "Mocha",
+      "description": "Espresso blended with chocolate and steamed milk",
+      "price_cents": 2500,
+      "available": true
+    },
+    {
+      "name": "Chai Latte",
+      "description": "Spiced chai concentrate finished with steamed milk",
+      "price_cents": 2500,
+      "available": true
+    }
+  ]
+}

@@ -1,0 +1,180 @@
+/* footer.css — Favo Cafe & Roastery
+   BEM block: .site-footer
+   ──────────────────────────────────── */
+
+.site-footer {
+  background: var(--color-teal-deep);
+  padding-top: var(--space-20);
+  border-top: 3px solid var(--color-rust);
+}
+
+.site-footer__inner {
+  max-width: var(--container-max, 1200px);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: var(--space-16);
+  padding-bottom: var(--space-16);
+}
+
+/* ── Brand column ─────────────────────────────────────────── */
+.site-footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.site-footer__logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-decoration: none;
+}
+
+.site-footer__logo-icon {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.site-footer__name {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-widest);
+  color: var(--color-cream);
+  text-transform: uppercase;
+}
+
+.site-footer__tagline {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: rgba(250, 240, 230, 0.60);
+  line-height: var(--leading-normal);
+  max-width: 280px;
+}
+
+/* ── Nav column ───────────────────────────────────────────── */
+.site-footer__nav-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.site-footer__nav-heading {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-rust);
+  margin-bottom: var(--space-2);
+}
+
+.site-footer__nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.site-footer__link {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: rgba(250, 240, 230, 0.65);
+  text-decoration: none;
+  transition: opacity var(--transition-fast, 0.15s), color var(--transition-fast, 0.15s);
+}
+.site-footer__link:hover {
+  color: var(--color-cream);
+  opacity: 1;
+}
+
+/* ── Contact column ───────────────────────────────────────── */
+.site-footer__contact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  font-style: normal;
+}
+
+.site-footer__contact-heading {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-rust);
+  margin-bottom: var(--space-2);
+}
+
+.site-footer__contact p,
+.site-footer__contact address {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: rgba(250, 240, 230, 0.65);
+  line-height: var(--leading-loose);
+}
+
+.site-footer__contact a {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: rgba(250, 240, 230, 0.65);
+  text-decoration: none;
+  transition: color var(--transition-fast, 0.15s);
+  display: block;
+}
+.site-footer__contact a:hover {
+  color: var(--color-cream);
+}
+
+/* ── Bottom bar ───────────────────────────────────────────── */
+.site-footer__bottom {
+  border-top: 1px solid var(--color-border-dark);
+  padding: var(--space-6);
+  max-width: var(--container-max, 1200px);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site-footer__copy {
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: var(--tracking-wide);
+  color: rgba(250, 240, 230, 0.40);
+}
+
+.site-footer__admin-link {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: rgba(250, 240, 230, 0.30);
+  text-decoration: none;
+  transition: color var(--transition-fast, 0.15s);
+}
+.site-footer__admin-link:hover {
+  color: rgba(250, 240, 230, 0.60);
+}
+
+/* ── Mobile ───────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .site-footer__inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+    padding-bottom: var(--space-10);
+  }
+
+  .site-footer__bottom {
+    flex-direction: column;
+    gap: var(--space-3);
+    text-align: center;
+  }
+}

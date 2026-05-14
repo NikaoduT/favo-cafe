@@ -1,0 +1,93 @@
+/* page-hero.css — Favo Cafe
+   BEM block: .page-hero
+   Used by inner pages: menu, contact, loyalty, order
+   ──────────────────────────────────────────────────── */
+
+.page-hero {
+  background: var(--color-teal-deep);
+  padding-top: var(--space-20);
+  padding-bottom: var(--space-16);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Consistent light overlay on dark folds */
+.page-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(250, 240, 230, 0.06);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page-hero__inner {
+  max-width: var(--container-max, 1200px);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+  position: relative;
+  z-index: 1;
+}
+
+.page-hero__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-rust);
+  margin-bottom: var(--space-4);
+}
+.page-hero__eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 32px;
+  height: 1px;
+  background: var(--color-rust);
+  flex-shrink: 0;
+}
+
+.page-hero__heading {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: 700;
+  color: var(--color-cream);
+  letter-spacing: -0.01em;
+  line-height: var(--leading-none);
+  margin-top: var(--space-4);
+}
+
+.page-hero__heading em {
+  color: var(--color-rust);
+  font-style: normal;
+}
+
+.page-hero__subtext,
+.page-hero__sub {
+  font-family: var(--font-body);
+  font-size: 20px;
+  color: rgba(250, 240, 230, 0.65);
+  line-height: var(--leading-loose);
+  margin-top: var(--space-4);
+  max-width: 560px;
+}
+
+/* ── Mobile ──────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .page-hero {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-12);
+  }
+
+  .page-hero__heading {
+    font-size: clamp(2.5rem, 8vw, 4rem);
+  }
+
+  .page-hero__subtext,
+  .page-hero__sub {
+    font-size: 18px;
+  }
+}

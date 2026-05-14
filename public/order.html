@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Order ahead from Favo Cafe. Pick your drinks, choose a pickup time, and pay online.">
+  <title>Order Ahead — Favo Cafe</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components/navbar.css">
+  <link rel="stylesheet" href="/css/components/menu-card.css">
+  <link rel="stylesheet" href="/css/components/footer.css">
+
+  <style>
+    /* ── Order page (BEM: order-) ──────────────────────────────────── */
+    body { background: var(--color-bg-page); }
+
+    .order-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 0;
+      min-height: calc(100vh - 64px);
+      max-width: var(--container-wide);
+      margin: 0 auto;
+    }
+
+    /* ── Left: menu panel ─────────────────────────────────────────── */
+    .order-menu {
+      border-right: 1px solid var(--color-border);
+      padding: var(--space-8) var(--space-8) var(--space-16);
+    }
+    .order-menu__heading {
+      font-family: var(--font-serif);
+      font-size: var(--text-2xl);
+      font-weight: var(--weight-bold);
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-6);
+    }
+
+    /* Category tabs */
+    .order-tabs {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-6);
+    }
+    .order-tab {
+      padding: var(--space-2) var(--space-4);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-full);
+      background: none;
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      font-weight: var(--weight-medium);
+      color: var(--color-text-body);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      text-transform: capitalize;
+    }
+    .order-tab:hover { border-color: var(--color-accent); color: var(--color-accent); }
+    .order-tab--active {
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+      color: var(--color-milk);
+    }
+
+    /* Menu grid */
+    .order-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: var(--space-5);
+      list-style: none;
+    }
+    .order-item {
+      background: var(--color-bg-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border);
+      overflow: hidden;
+      cursor: pointer;
+      transition: box-shadow var(--transition-base), transform var(--transition-base), border-color var(--transition-base);
+    }
+    .order-item:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+      border-color: var(--color-accent);
+    }
+    .order-item__thumb {
+      height: 100px;
+      background: var(--color-bg-section);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+    }
+    .order-item__body { padding: var(--space-4); }
+    .order-item__name {
+      font-weight: var(--weight-semibold);
+      font-size: var(--text-sm);
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-1);
+    }
+    .order-item__desc {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-3);
+      line-height: var(--leading-normal);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .order-item__price {
+      font-weight: var(--weight-bold);
+      color: var(--color-accent);
+      font-size: var(--text-base);
+    }
+    .order-empty {
+      grid-column: 1 / -1;
+      padding: var(--space-12);
+      text-align: center;
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
+    }
+
+    /* ── Right: cart panel ────────────────────────────────────────── */
+    .order-cart {
+      position: sticky;
+      top: 64px;
+      height: calc(100vh - 64px);
+      display: flex;
+      flex-direction: column;
+      background: var(--color-bg-card);
+      border-left: 1px solid var(--color-border);
+      overflow: hidden;
+    }
+    .order-cart__header {
+      padding: var(--space-6) var(--space-6) var(--space-4);
+      border-bottom: 1px solid var(--color-border);
+      flex-shrink: 0;
+    }
+    .order-cart__title {
+      font-family: var(--font-serif);
+      font-size: var(--text-xl);
+      font-weight: var(--weight-bold);
+      color: var(--color-text-primary);
+    }
+    .order-cart__count {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      margin-top: var(--space-1);
+    }
+    .order-cart__items {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--space-4) var(--space-6);
+    }
+    .order-cart__empty {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-3);
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
+      text-align: center;
+    }
+    .order-cart__empty-icon { font-size: 3rem; opacity: 0.4; }
+
+    /* Cart line items */
+    .order-line {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      padding: var(--space-3) 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .order-line:last-child { border-bottom: none; }
+    .order-line__info { flex: 1; }
+    .order-line__name { font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--color-text-primary); }
+    .order-line__mods { font-size: var(--text-xs); color: var(--color-text-muted); margin-top: 2px; }
+    .order-line__price { font-size: var(--text-sm); font-weight: var(--weight-semibold); color: var(--color-text-primary); white-space: nowrap; }
+    .order-line__qty {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      margin-top: var(--space-2);
+    }
+    .order-line__qty-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border);
+      background: none;
+      font-size: var(--text-base);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--color-text-body);
+      transition: background var(--transition-fast);
+    }
+    .order-line__qty-btn:hover { background: var(--color-bg-section); }
+    .order-line__qty-num { font-size: var(--text-sm); font-weight: var(--weight-semibold); min-width: 20px; text-align: center; }
+
+    /* Cart footer */
+    .order-cart__footer {
+      flex-shrink: 0;
+      padding: var(--space-4) var(--space-6);
+      border-top: 1px solid var(--color-border);
+    }
+    .order-pickup {
+      margin-bottom: var(--space-4);
+    }
+    .order-pickup__label {
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-2);
+      display: block;
+    }
+    .order-pickup__select {
+      width: 100%;
+      padding: var(--space-2) var(--space-3);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      color: var(--color-text-primary);
+      background: var(--color-bg-page);
+      outline: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238A7968' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right .75rem center;
+      padding-right: 2rem;
+    }
+    .order-pickup__select:focus { border-color: var(--color-accent); }
+
+    .order-totals { margin-bottom: var(--space-4); }
+    .order-totals__row {
+      display: flex;
+      justify-content: space-between;
+      font-size: var(--text-sm);
+      color: var(--color-text-body);
+      margin-bottom: var(--space-2);
+    }
+    .order-totals__row--total {
+      font-weight: var(--weight-bold);
+      font-size: var(--text-base);
+      color: var(--color-text-primary);
+      padding-top: var(--space-2);
+      border-top: 1px solid var(--color-border);
+      margin-top: var(--space-2);
+    }
+    .order-checkout-btn {
+      width: 100%;
+      padding: var(--space-4);
+      background: var(--color-accent);
+      color: var(--color-milk);
+      border: none;
+      border-radius: var(--radius-md);
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      font-weight: var(--weight-semibold);
+      cursor: pointer;
+      transition: opacity var(--transition-fast);
+    }
+    .order-checkout-btn:hover:not(:disabled) { opacity: 0.88; }
+    .order-checkout-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    /* ── Modifier modal ────────────────────────────────────────────── */
+    .order-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: var(--z-modal);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: var(--space-4);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-base);
+    }
+    .order-overlay:not([hidden]) { opacity: 1; pointer-events: all; }
+    .order-modal {
+      background: var(--color-bg-card);
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      width: 100%;
+      max-width: 480px;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding-bottom: var(--space-6);
+    }
+    .order-modal__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-5) var(--space-6);
+      border-bottom: 1px solid var(--color-border);
+      position: sticky;
+      top: 0;
+      background: var(--color-bg-card);
+    }
+    .order-modal__title {
+      font-family: var(--font-serif);
+      font-size: var(--text-xl);
+      font-weight: var(--weight-bold);
+      color: var(--color-text-primary);
+    }
+    .order-modal__close {
+      width: 32px; height: 32px;
+      border: none; background: none;
+      border-radius: var(--radius-md);
+      cursor: pointer; font-size: 1.25rem;
+      color: var(--color-text-muted);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .order-modal__close:hover { background: var(--color-bg-section); }
+    .order-modal__section { padding: var(--space-5) var(--space-6) 0; }
+    .order-modal__section-title {
+      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-3);
+    }
+    .order-modal__options { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+    .order-mod-btn {
+      padding: var(--space-2) var(--space-4);
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-full);
+      background: none;
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      color: var(--color-text-body);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .order-mod-btn:hover { border-color: var(--color-accent); color: var(--color-accent); }
+    .order-mod-btn--selected { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-milk); }
+    .order-modal__add-btn {
+      margin: var(--space-6) var(--space-6) 0;
+      width: calc(100% - var(--space-12));
+      padding: var(--space-4);
+      background: var(--color-accent);
+      color: var(--color-milk);
+      border: none;
+      border-radius: var(--radius-md);
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      font-weight: var(--weight-semibold);
+      cursor: pointer;
+      transition: opacity var(--transition-fast);
+    }
+    .order-modal__add-btn:hover { opacity: 0.88; }
+
+    /* ── Confirmation overlay ───────────────────────────────────────── */
+    .order-confirm {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: calc(var(--z-modal) + 10);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-6);
+    }
+    .order-confirm--hidden { display: none; }
+    .order-confirm__card {
+      background: var(--color-bg-card);
+      border-radius: var(--radius-xl);
+      padding: var(--space-10);
+      max-width: 420px;
+      text-align: center;
+      box-shadow: var(--shadow-xl);
+    }
+    .order-confirm__icon { font-size: 3.5rem; margin-bottom: var(--space-4); }
+    .order-confirm__heading {
+      font-family: var(--font-serif);
+      font-size: var(--text-2xl);
+      font-weight: var(--weight-bold);
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-3);
+    }
+    .order-confirm__body { font-size: var(--text-sm); color: var(--color-text-body); line-height: var(--leading-loose); margin-bottom: var(--space-6); }
+    .order-confirm__notice {
+      background: rgba(196,125,46,0.08);
+      border: 1px solid rgba(196,125,46,0.25);
+      border-radius: var(--radius-md);
+      padding: var(--space-3) var(--space-4);
+      font-size: var(--text-sm);
+      color: var(--color-accent);
+      margin-bottom: var(--space-6);
+    }
+    .order-confirm__btn {
+      display: block;
+      width: 100%;
+      padding: var(--space-3);
+      background: var(--color-accent);
+      color: var(--color-milk);
+      border: none;
+      border-radius: var(--radius-md);
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      font-weight: var(--weight-semibold);
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    @media (max-width: 900px) {
+      .order-layout { grid-template-columns: 1fr; }
+      .order-cart { position: fixed; bottom: 0; left: 0; right: 0; height: auto; max-height: 55vh; z-index: var(--z-above); border-top: 1px solid var(--color-border); border-left: none; }
+      .order-menu { padding-bottom: 300px; }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-nav" role="banner">
+    <div class="site-nav__container">
+      <a class="site-nav__logo" href="/" aria-label="Favo Cafe — home">
+        <img class="site-nav__logo-img" src="/assets/icons/favo-logo.svg" alt="Favo Cafe" height="36">
+      </a>
+      <nav class="site-nav__links" id="site-nav-links" aria-label="Main navigation">
+        <a class="site-nav__link" href="/">Home</a>
+        <a class="site-nav__link" href="/menu.html">Menu</a>
+        <a class="site-nav__link" href="/contact.html">Contact</a>
+      </nav>
+      <a class="site-nav__rewards" href="/loyalty.html" id="rewards-btn">Rewards</a>
+      <a class="site-nav__login" href="/login.html">Login / Register</a>
+      <button class="site-nav__hamburger" aria-label="Open navigation menu" aria-controls="site-nav-links" aria-expanded="false" type="button">
+        <span class="site-nav__hamburger-bar" aria-hidden="true"></span>
+        <span class="site-nav__hamburger-bar" aria-hidden="true"></span>
+        <span class="site-nav__hamburger-bar" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <div class="order-layout">
+
+      <!-- ── Left: menu ──────────────────────────────────────────────── -->
+      <section class="order-menu" aria-label="Menu">
+        <h1 class="order-menu__heading">Order ahead</h1>
+
+        <div class="order-tabs" id="order-tabs" role="tablist" aria-label="Menu categories">
+          <!-- Injected by JS -->
+        </div>
+
+        <ul class="order-grid" id="order-grid" role="list" aria-label="Menu items">
+          <li class="order-empty" aria-live="polite">Loading menu…</li>
+        </ul>
+      </section>
+
+      <!-- ── Right: cart ─────────────────────────────────────────────── -->
+      <aside class="order-cart" aria-label="Your order">
+        <header class="order-cart__header">
+          <h2 class="order-cart__title">Your order</h2>
+          <p class="order-cart__count" id="cart-count">Nothing added yet</p>
+        </header>
+
+        <div class="order-cart__items" id="cart-items" aria-live="polite">
+          <div class="order-cart__empty">
+            <span class="order-cart__empty-icon" aria-hidden="true">🛒</span>
+            <p>Tap any item to add it to your order.</p>
+          </div>
+        </div>
+
+        <footer class="order-cart__footer">
+          <div class="order-pickup">
+            <label class="order-pickup__label" for="pickup-time">Pickup time</label>
+            <select class="order-pickup__select" id="pickup-time" aria-label="Select pickup time">
+              <!-- Injected by JS -->
+            </select>
+          </div>
+
+          <div class="order-totals" aria-label="Order totals">
+            <div class="order-totals__row">
+              <span>Subtotal</span>
+              <span id="cart-subtotal">R 0.00</span>
+            </div>
+            <div class="order-totals__row order-totals__row--total">
+              <span>Total</span>
+              <span id="cart-total">R 0.00</span>
+            </div>
+          </div>
+
+          <button class="order-checkout-btn" id="checkout-btn" type="button" disabled>
+            Add items to continue
+          </button>
+        </footer>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- ── Modifier picker modal ──────────────────────────────────────────────── -->
+  <div class="order-overlay" id="mod-overlay" role="dialog" aria-modal="true" aria-labelledby="mod-title" hidden>
+    <div class="order-modal">
+      <header class="order-modal__header">
+        <h2 class="order-modal__title" id="mod-title">Customise</h2>
+        <button class="order-modal__close" id="mod-close" type="button" aria-label="Close">✕</button>
+      </header>
+      <div id="mod-groups"></div>
+      <button class="order-modal__add-btn" id="mod-add-btn" type="button">Add to order — R 0.00</button>
+    </div>
+  </div>
+
+  <!-- ── Order confirmation ─────────────────────────────────────────────────── -->
+  <div class="order-confirm order-confirm--hidden" id="order-confirm" role="dialog" aria-modal="true" aria-labelledby="confirm-heading">
+    <div class="order-confirm__card">
+      <div class="order-confirm__icon" aria-hidden="true">✅</div>
+      <h2 class="order-confirm__heading" id="confirm-heading">Order placed!</h2>
+      <p class="order-confirm__body" id="confirm-body">Your order has been received. We'll have it ready for pickup at your selected time.</p>
+      <p class="order-confirm__notice">
+        💳 Online payment coming soon — for now, please pay at the counter when you collect.
+      </p>
+      <a class="order-confirm__btn" href="/">Back to home</a>
+    </div>
+  </div>
+
+  <script src="/js/main.js"></script>
+  <script src="/js/order-cart.js"></script>
+</body>
+</html>

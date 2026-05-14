@@ -1,0 +1,29 @@
+app = "favo-cafe"
+primary_region = "jnb"
+
+[build]
+
+[env]
+  PORT = "3000"
+  NODE_ENV = "production"
+  DB_PATH = "/data/favo.db"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [http_service.concurrency]
+    type = "connections"
+    hard_limit = 25
+    soft_limit = 20
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"
+
+[[mounts]]
+  source = "favo_data"
+  destination = "/data"

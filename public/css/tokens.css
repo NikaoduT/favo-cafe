@@ -1,0 +1,183 @@
+/* tokens.css — Favo Cafe & Roastery
+   Teal & Rust rebrand. Josefin Sans + Cormorant Garamond.
+   ─────────────────────────────────────────────────────── */
+
+/* ── Josefin Sans — Self-hosted ─────────────────────────── */
+@font-face {
+  font-family: 'Josefin Sans';
+  src: url('/assets/fonts/JosefinSans-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Josefin Sans';
+  src: url('/assets/fonts/JosefinSans-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Josefin Sans';
+  src: url('/assets/fonts/JosefinSans-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Josefin Sans';
+  src: url('/assets/fonts/JosefinSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Josefin Sans';
+  src: url('/assets/fonts/JosefinSans-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Josefin Sans';
+  src: url('/assets/fonts/JosefinSans-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+}
+
+/* ── Cormorant Garamond — CDN ───────────────────────────── */
+@import url('https://cdn.jsdelivr.net/npm/@fontsource/cormorant-garamond@5/index.min.css');
+
+:root {
+
+  /* ── Brand Palette — 8 colours ──────────────────────── */
+  --color-teal-deep: #0A2E2C;
+  --color-teal:      #0E3D3A;
+  --color-rust:      #E07040;
+  --color-rust-deep: #B85530;
+  --color-gold:      #D4A843;
+  --color-burgundy:  #5C1A2A;
+  --color-cream:     #FAF0E6;
+  --color-ink:       #0D0D0D;
+
+  /* ── Semantic aliases ───────────────────────────────── */
+  --color-bg-page:           var(--color-cream);
+  --color-bg-dark:           var(--color-teal-deep);
+  --color-bg-mid:            var(--color-teal);
+  --color-bg-section:        #F0E8D8;
+  --color-bg-card:           #FFFFFF;
+
+  --color-text-primary:      var(--color-ink);
+  --color-text-body:         #2C1A10;
+  --color-text-muted:        #7A5C42;
+  --color-text-on-dark:      var(--color-cream);
+  --color-text-on-dark-muted:rgba(250,240,230,0.65);
+
+  --color-accent:            var(--color-rust);
+  --color-accent-hover:      var(--color-rust-deep);
+  --color-accent-alt:        var(--color-gold);
+  --color-accent-burg:       var(--color-burgundy);
+
+  --color-border:            rgba(10,46,44,0.14);
+  --color-border-dark:       rgba(250,240,230,0.12);
+  --color-border-rust:       rgba(224,112,64,0.25);
+
+  /* legacy aliases used by admin + older components */
+  --color-espresso:          var(--color-teal-deep);
+  --color-caramel:           var(--color-rust);
+  --color-caramel-light:     var(--color-gold);
+  --color-caramel-pale:      rgba(224,112,64,0.10);
+  --color-milk:              var(--color-cream);
+  --color-parchment:         var(--color-bg-section);
+  --color-charcoal:          var(--color-text-body);
+  --color-stone:             var(--color-text-muted);
+  --color-roast:             var(--color-teal);
+  --color-sage:              #4E8A6A;
+  --color-brick:             #C0392B;
+
+  /* ── Typography ─────────────────────────────────────── */
+  --font-display: 'Josefin Sans', system-ui, sans-serif;
+  --font-body:    'Cormorant Garamond', Georgia, serif;
+  --font-sans:    'Josefin Sans', system-ui, sans-serif;
+  --font-serif:   'Cormorant Garamond', Georgia, serif;
+  --font-mono:    'Courier New', monospace;
+
+  /* Type scale */
+  --text-xs:      0.75rem;
+  --text-sm:      0.875rem;
+  --text-base:    1rem;
+  --text-lg:      1.125rem;
+  --text-xl:      1.25rem;
+  --text-2xl:     1.5rem;
+  --text-3xl:     1.875rem;
+  --text-4xl:     2.25rem;
+  --text-5xl:     3rem;
+  --text-6xl:     3.75rem;
+  --text-7xl:     4.5rem;
+  --text-display: clamp(3rem, 7vw, 5.5rem);
+  --text-hero:    clamp(3.5rem, 9vw, 7rem);
+
+  /* Weights */
+  --weight-thin:     100;
+  --weight-light:    300;
+  --weight-regular:  400;
+  --weight-medium:   400;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+  --weight-black:    700;
+
+  /* Line heights */
+  --leading-none:   1.0;
+  --leading-tight:  1.1;
+  --leading-snug:   1.3;
+  --leading-normal: 1.6;
+  --leading-loose:  1.8;
+
+  /* Letter spacing */
+  --tracking-wide:   0.08em;
+  --tracking-wider:  0.14em;
+  --tracking-widest: 0.22em;
+
+  /* ── Spacing (8px base) ──────────────────────────────── */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* ── Border Radius ───────────────────────────────────── */
+  --radius-sm:   2px;
+  --radius-md:   4px;
+  --radius-lg:   8px;
+  --radius-xl:   16px;
+  --radius-full: 9999px;
+
+  /* ── Shadows ─────────────────────────────────────────── */
+  --shadow-sm: 0 1px 4px rgba(10,46,44,0.10);
+  --shadow-md: 0 4px 16px rgba(10,46,44,0.12);
+  --shadow-lg: 0 8px 32px rgba(10,46,44,0.16);
+  --shadow-xl: 0 16px 48px rgba(10,46,44,0.20);
+
+  /* ── Layout ──────────────────────────────────────────── */
+  --container-max:  1200px;
+  --container-wide: 1440px;
+  --sidebar-width:  260px;
+  --topbar-height:  72px;
+
+  /* ── Transitions ─────────────────────────────────────── */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  /* ── Z-index ─────────────────────────────────────────── */
+  --z-base:    0;
+  --z-above:   10;
+  --z-nav:     100;
+  --z-overlay: 200;
+  --z-modal:   300;
+  --z-toast:   400;
+}

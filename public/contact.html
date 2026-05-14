@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Find Favo Cafe &amp; Roastery in Reyno Ridge, eMalahleni. Opening hours, address and contact details.">
+  <title>Contact — Favo Cafe &amp; Roastery</title>
+
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components/navbar.css">
+  <link rel="stylesheet" href="/css/components/page-hero.css">
+  <link rel="stylesheet" href="/css/components/footer.css">
+
+  <style>
+    /* ── Contact page styles (BEM: contact-) ───────────────────────── */
+    .contact-body {
+      padding: var(--space-24) 0;
+      background: var(--color-teal-deep);
+    }
+    .contact-body__inner {
+      max-width: var(--container-max, 1200px);
+      margin: 0 auto;
+      padding: 0 var(--space-6);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-16);
+      align-items: start;
+    }
+
+    /* ── Info column ────────────────────────────────────────────────── */
+    .contact-info__heading {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      color: var(--color-cream);
+      letter-spacing: 0.04em;
+      margin-bottom: var(--space-8);
+    }
+    .contact-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+    }
+    .contact-detail__icon {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      background: rgba(250,240,230,0.08);
+      border: 1px solid var(--color-border-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+    .contact-detail__label {
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: var(--tracking-widest);
+      text-transform: uppercase;
+      color: var(--color-rust);
+      margin-bottom: var(--space-1);
+    }
+    .contact-detail__value {
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      color: rgba(250,240,230,0.75);
+      line-height: var(--leading-normal);
+    }
+    .contact-detail__value a {
+      color: var(--color-gold);
+      text-decoration: none;
+    }
+    .contact-detail__value a:hover { text-decoration: underline; }
+
+    /* ── Hours table ─────────────────────────────────────────────────── */
+    .contact-hours {
+      margin-top: var(--space-8);
+      border: 1px solid var(--color-border-dark);
+      overflow: hidden;
+    }
+    .contact-hours__heading {
+      padding: var(--space-4) var(--space-5);
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: var(--tracking-widest);
+      text-transform: uppercase;
+      color: var(--color-rust);
+      border-bottom: 1px solid var(--color-border-dark);
+      background: rgba(250,240,230,0.04);
+    }
+    .contact-hours__table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .contact-hours__row {
+      border-bottom: 1px solid var(--color-border-dark);
+    }
+    .contact-hours__row:last-child { border-bottom: none; }
+    .contact-hours__row--today .contact-hours__day,
+    .contact-hours__row--today .contact-hours__time {
+      color: var(--color-rust);
+      font-weight: 600;
+    }
+    .contact-hours__day,
+    .contact-hours__time {
+      padding: var(--space-3) var(--space-5);
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      color: rgba(250,240,230,0.65);
+    }
+    .contact-hours__time { text-align: right; }
+    .contact-hours__closed { color: rgba(250,240,230,0.35); }
+    .contact-hours__note {
+      font-size: var(--text-xs);
+      color: rgba(250,240,230,0.40);
+    }
+    .contact-hours__link {
+      color: var(--color-gold);
+      text-decoration: none;
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+    }
+    .contact-hours__link:hover { text-decoration: underline; }
+
+    /* ── Form ────────────────────────────────────────────────────────── */
+    .contact-form-wrap {
+      background: var(--color-bg-card);
+      padding: var(--space-10);
+    }
+    .contact-form__heading {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--color-ink);
+      margin-bottom: var(--space-2);
+    }
+    .contact-form__sub {
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-8);
+    }
+    .contact-form__group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      margin-bottom: var(--space-5);
+    }
+    .contact-form__label {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: var(--tracking-wider);
+      text-transform: uppercase;
+      color: var(--color-text-primary);
+    }
+    .contact-form__input,
+    .contact-form__textarea {
+      padding: var(--space-3) var(--space-4);
+      border: 1px solid var(--color-border);
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      color: var(--color-text-primary);
+      background: var(--color-bg-page);
+      outline: none;
+      border-radius: 0;
+      transition: border-color var(--transition-fast, 0.15s), box-shadow var(--transition-fast, 0.15s);
+      width: 100%;
+    }
+    .contact-form__input:focus,
+    .contact-form__textarea:focus {
+      border-color: var(--color-rust);
+      box-shadow: 0 0 0 3px rgba(224,112,64,0.10);
+    }
+    .contact-form__input::placeholder,
+    .contact-form__textarea::placeholder { color: var(--color-text-muted); }
+    .contact-form__textarea {
+      resize: vertical;
+      min-height: 140px;
+    }
+    .contact-form__btn {
+      width: 100%;
+      padding: var(--space-4);
+      background: var(--color-rust);
+      color: var(--color-cream);
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: var(--tracking-wider);
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background var(--transition-fast, 0.15s);
+    }
+    .contact-form__btn:hover:not(:disabled) { background: var(--color-rust-deep); }
+    .contact-form__btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .contact-form__success {
+      display: none;
+      padding: var(--space-4);
+      background: rgba(78,138,106,0.10);
+      border: 1px solid #4E8A6A;
+      color: #4E8A6A;
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      text-align: center;
+      margin-top: var(--space-4);
+    }
+    .contact-form__error-msg {
+      display: none;
+      padding: var(--space-3) var(--space-4);
+      background: rgba(192,57,43,0.08);
+      border: 1px solid rgba(192,57,43,0.3);
+      color: #C0392B;
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      margin-top: var(--space-4);
+    }
+
+    @media (max-width: 768px) {
+      .contact-body__inner { grid-template-columns: 1fr; gap: var(--space-12); }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-nav" role="banner">
+    <div class="site-nav__container">
+      <a class="site-nav__logo" href="/" aria-label="Favo Cafe — home">
+        <img class="site-nav__logo-img" src="/assets/icons/favo-logo.svg" alt="Favo Cafe" height="36">
+      </a>
+      <nav class="site-nav__links" id="site-nav-links" aria-label="Main navigation">
+        <a class="site-nav__link" href="/">Home</a>
+        <a class="site-nav__link" href="/menu.html">Menu</a>
+        <a class="site-nav__link site-nav__link--active" href="/contact.html">Contact</a>
+      </nav>
+      <a class="site-nav__rewards" href="/loyalty.html" id="rewards-btn">Rewards</a>
+      <a class="site-nav__login" href="/login.html">Login / Register</a>
+      <button class="site-nav__hamburger" aria-label="Open navigation menu" aria-controls="site-nav-links" aria-expanded="false" type="button">
+        <span class="site-nav__hamburger-bar" aria-hidden="true"></span>
+        <span class="site-nav__hamburger-bar" aria-hidden="true"></span>
+        <span class="site-nav__hamburger-bar" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <section class="page-hero page-hero--contact" aria-labelledby="contact-hero-heading">
+      <div class="page-hero__inner">
+        <span class="page-hero__eyebrow">Get in touch</span>
+        <h1 class="page-hero__heading" id="contact-hero-heading">Find us.</h1>
+        <p class="page-hero__subtext">7 Duiker Street, Reyno Ridge, eMalahleni. Monday to Friday from 08:30.</p>
+      </div>
+    </section>
+
+    <section class="contact-body" aria-label="Contact details and message form">
+      <div class="contact-body__inner">
+
+        <div class="contact-info">
+          <h2 class="contact-info__heading">Our details</h2>
+
+          <address>
+            <div class="contact-detail">
+              <span class="contact-detail__icon" aria-hidden="true">&#128205;</span>
+              <div>
+                <p class="contact-detail__label">Address</p>
+                <p class="contact-detail__value">7 Duiker St, Reyno Ridge<br>eMalahleni, 1049</p>
+              </div>
+            </div>
+
+            <div class="contact-detail">
+              <span class="contact-detail__icon" aria-hidden="true">&#128222;</span>
+              <div>
+                <p class="contact-detail__label">Phone</p>
+                <p class="contact-detail__value">
+                  <a href="tel:+27136924232">+27 13 692 4232</a>
+                </p>
+              </div>
+            </div>
+
+            <div class="contact-detail">
+              <span class="contact-detail__icon" aria-hidden="true">&#9993;</span>
+              <div>
+                <p class="contact-detail__label">Email</p>
+                <p class="contact-detail__value">
+                  <a href="mailto:hello@favocafe.co.za">hello@favocafe.co.za</a>
+                </p>
+              </div>
+            </div>
+          </address>
+
+          <div class="contact-hours" aria-label="Opening hours">
+            <h3 class="contact-hours__heading">Opening hours</h3>
+            <table class="contact-hours__table">
+              <caption class="sr-only">Weekly opening hours</caption>
+              <tbody id="hours-tbody">
+                <tr class="contact-hours__row">
+                  <td class="contact-hours__day">Mon – Fri</td>
+                  <td class="contact-hours__time">08:30 – 09:30</td>
+                </tr>
+                <tr class="contact-hours__row">
+                  <td class="contact-hours__day">Saturday</td>
+                  <td class="contact-hours__time contact-hours__closed">Closed</td>
+                </tr>
+                <tr class="contact-hours__row">
+                  <td class="contact-hours__day">Sunday</td>
+                  <td class="contact-hours__time">07:50 – 09:15</td>
+                </tr>
+                <tr class="contact-hours__row">
+                  <td class="contact-hours__day">Untracked <span class="contact-hours__note">(monthly)</span></td>
+                  <td class="contact-hours__time"><a href="https://hofmi.net/untracked/" target="_blank" rel="noopener" class="contact-hours__link">See schedule ↗</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="contact-form-wrap">
+          <h2 class="contact-form__heading">Send us a message</h2>
+          <p class="contact-form__sub">We reply within one business day.</p>
+
+          <form class="contact-form" id="contact-form" novalidate>
+            <div class="contact-form__group">
+              <label class="contact-form__label" for="contact-name">Your name</label>
+              <input
+                class="contact-form__input"
+                id="contact-name"
+                name="name"
+                type="text"
+                autocomplete="name"
+                required
+                placeholder="e.g. Amara Dlamini"
+              >
+            </div>
+
+            <div class="contact-form__group">
+              <label class="contact-form__label" for="contact-email">Email address</label>
+              <input
+                class="contact-form__input"
+                id="contact-email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                required
+                placeholder="e.g. amara@example.com"
+              >
+            </div>
+
+            <div class="contact-form__group">
+              <label class="contact-form__label" for="contact-subject">Subject</label>
+              <input
+                class="contact-form__input"
+                id="contact-subject"
+                name="subject"
+                type="text"
+                placeholder="e.g. Wholesale enquiry, Events, Feedback…"
+              >
+            </div>
+
+            <div class="contact-form__group">
+              <label class="contact-form__label" for="contact-message">Message</label>
+              <textarea
+                class="contact-form__textarea"
+                id="contact-message"
+                name="message"
+                required
+                placeholder="Tell us what's on your mind…"
+              ></textarea>
+            </div>
+
+            <button class="contact-form__btn" type="submit" id="contact-submit">Send message</button>
+            <p class="contact-form__error-msg" id="contact-error" role="alert"></p>
+            <p class="contact-form__success" id="contact-success" role="status">
+              &#10003; Message sent! We'll be in touch within one business day.
+            </p>
+          </form>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="site-footer__inner">
+      <div class="site-footer__brand">
+        <a class="site-footer__logo" href="/" aria-label="Favo Cafe &amp; Roastery home">
+          <svg class="site-footer__logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="36" height="36" fill="#E07040"/>
+            <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="Josefin Sans, sans-serif" font-weight="700" font-size="20" letter-spacing="0.05em" fill="#FAF0E6">F</text>
+          </svg>
+          <span class="site-footer__name">Favo Cafe</span>
+        </a>
+        <p class="site-footer__tagline">Specialty coffee, roasted and served with intention. Reyno Ridge, eMalahleni.</p>
+      </div>
+      <nav class="site-footer__nav-col" aria-label="Site pages">
+        <span class="site-footer__nav-heading">Pages</span>
+        <ul class="site-footer__nav-list">
+          <li><a class="site-footer__link" href="/">Home</a></li>
+          <li><a class="site-footer__link" href="/menu.html">Menu</a></li>
+          <li><a class="site-footer__link" href="/loyalty.html">Loyalty</a></li>
+          <li><a class="site-footer__link" href="/contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <address class="site-footer__contact">
+        <span class="site-footer__contact-heading">Find us</span>
+        <p>7 Duiker St, Reyno Ridge</p>
+        <p>eMalahleni, 1049</p>
+        <a href="tel:+27136924232">+27 13 692 4232</a>
+        <a href="mailto:hello@favocafe.co.za">hello@favocafe.co.za</a>
+      </address>
+    </div>
+    <div class="site-footer__bottom">
+      <p class="site-footer__copy">&copy; 2026 Favo Cafe &amp; Roastery. All rights reserved.</p>
+      <a class="site-footer__admin-link" href="/admin/login.html">Staff login</a>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+  <script>
+    /**
+     * Contact form — client-side validation + simulated submit.
+     * @returns {void}
+     */
+    (() => {
+      const form    = document.getElementById('contact-form');
+      const btn     = document.getElementById('contact-submit');
+      const success = document.getElementById('contact-success');
+      const errorEl = document.getElementById('contact-error');
+
+      /**
+       * Highlight today's row in the hours table.
+       * Row 0 = Mon–Fri (day 1–5), Row 1 = Saturday (6), Row 2 = Sunday (0)
+       */
+      const todayIdx = new Date().getDay();
+      const rows = document.querySelectorAll('.contact-hours__row');
+      if (todayIdx >= 1 && todayIdx <= 5) rows[0]?.classList.add('contact-hours__row--today');
+      if (todayIdx === 6) rows[1]?.classList.add('contact-hours__row--today');
+      if (todayIdx === 0) rows[2]?.classList.add('contact-hours__row--today');
+
+      form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errorEl.style.display = 'none';
+
+        const name    = document.getElementById('contact-name').value.trim();
+        const email   = document.getElementById('contact-email').value.trim();
+        const message = document.getElementById('contact-message').value.trim();
+
+        if (!name || !email || !message) {
+          errorEl.textContent = 'Please fill in your name, email, and message.';
+          errorEl.style.display = 'block';
+          return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          errorEl.textContent = 'Please enter a valid email address.';
+          errorEl.style.display = 'block';
+          return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
+
+        try {
+          await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, subject: document.getElementById('contact-subject').value.trim(), message })
+          });
+        } catch (_) {
+          // Gracefully handle missing endpoint during development
+        }
+
+        btn.textContent = 'Sent';
+        success.style.display = 'block';
+        form.reset();
+      });
+    })();
+  </script>
+</body>
+</html>

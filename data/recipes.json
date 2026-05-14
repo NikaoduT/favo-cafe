@@ -1,0 +1,68 @@
+{
+  "_notes": {
+    "inventoryItemIds": {
+      "1": "Favo Roasted Blend (kg)",
+      "2": "Full Cream Milk (litre)",
+      "3": "Macadamia Milk (litre)",
+      "4": "Hot Chocolate Powder (kg)",
+      "5": "Chai Concentrate (bottle)",
+      "6": "8oz Takeaway Cups (sleeve/50)"
+    },
+    "modifierSubstituteIds": {
+      "2": "Macadamia milk — substitutes inventory item 2 (Full Cream) with item 3 (Macadamia)"
+    },
+    "units": "kg = kilograms, ml = millilitres, unit = single unit from sleeve",
+    "quantities": "Per serving. Extra shot modifier adds 0.018 kg coffee beans."
+  },
+  "recipes": [
+    {
+      "menuItemName": "Americano",
+      "notes": "Single shot espresso + hot water. No milk required.",
+      "ingredients": [
+        { "inventoryItemId": 1, "quantity": 0.018, "unit": "kg",   "modifierId": null, "isSubstitute": false },
+        { "inventoryItemId": 6, "quantity": 1,     "unit": "unit", "modifierId": null, "isSubstitute": false }
+      ]
+    },
+    {
+      "menuItemName": "Cappuccino",
+      "notes": "Single shot espresso with steamed milk and foam.",
+      "ingredients": [
+        { "inventoryItemId": 1, "quantity": 0.018, "unit": "kg",     "modifierId": null, "isSubstitute": false },
+        { "inventoryItemId": 2, "quantity": 0.12,  "unit": "litre",  "modifierId": null, "isSubstitute": false },
+        { "inventoryItemId": 3, "quantity": 0.12,  "unit": "litre",  "modifierId": 2,    "isSubstitute": true  },
+        { "inventoryItemId": 6, "quantity": 1,     "unit": "unit",   "modifierId": null, "isSubstitute": false }
+      ]
+    },
+    {
+      "menuItemName": "Hot Chocolate",
+      "notes": "Hot chocolate powder with steamed milk. No espresso.",
+      "ingredients": [
+        { "inventoryItemId": 4, "quantity": 0.030, "unit": "kg",     "modifierId": null, "isSubstitute": false },
+        { "inventoryItemId": 2, "quantity": 0.20,  "unit": "litre",  "modifierId": null, "isSubstitute": false },
+        { "inventoryItemId": 3, "quantity": 0.20,  "unit": "litre",  "modifierId": 2,    "isSubstitute": true  },
+        { "inventoryItemId": 6, "quantity": 1,     "unit": "unit",   "modifierId": null, "isSubstitute": false }
+      ]
+    },
+    {
+      "menuItemName": "Mocha",
+      "notes": "Espresso with hot chocolate and steamed milk.",
+      "ingredients": [
+        { "inventoryItemId": 1, "quantity": 0.018, "unit": "kg",     "modifierId": null, "isSubstitute": false },
+        { "inventoryItemId": 4, "quantity": 0.020, "unit": "kg",     "modifierId": null, "isSubstitute": false },
+        { "inventoryItemId": 2, "quantity": 0.15,  "unit": "litre",  "modifierId": null, "isSubstitute": false },
+        { "inventoryItemId": 3, "quantity": 0.15,  "unit": "litre",  "modifierId": 2,    "isSubstitute": true  },
+        { "inventoryItemId": 6, "quantity": 1,     "unit": "unit",   "modifierId": null, "isSubstitute": false }
+      ]
+    },
+    {
+      "menuItemName": "Chai Latte",
+      "notes": "Chai concentrate with steamed milk. No espresso.",
+      "ingredients": [
+        { "inventoryItemId": 5, "quantity": 0.060, "unit": "litre",  "modifierId": null, "isSubstitute": false },
+        { "inventoryItemId": 2, "quantity": 0.18,  "unit": "litre",  "modifierId": null, "isSubstitute": false },
+        { "inventoryItemId": 3, "quantity": 0.18,  "unit": "litre",  "modifierId": 2,    "isSubstitute": true  },
+        { "inventoryItemId": 6, "quantity": 1,     "unit": "unit",   "modifierId": null, "isSubstitute": false }
+      ]
+    }
+  ]
+}

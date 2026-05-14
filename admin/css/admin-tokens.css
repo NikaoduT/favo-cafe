@@ -1,0 +1,57 @@
+/* admin-tokens.css — Admin Panel Design Tokens
+   Extends the public tokens with admin-specific values.
+   Import AFTER public/css/tokens.css.
+   ─────────────────────────────────────────────────────────────────── */
+
+:root {
+
+  /* ── Admin font ─────────────────────────────────────────────────── */
+  --admin-font-display: 'Josefin Sans', system-ui, sans-serif;
+
+  /* ── Admin colour roles (mapped to new brand palette) ───────────── */
+  --admin-color-primary:    #0A2E2C;   /* Teal deep — sidebar, topbar accents */
+  --admin-color-accent:     #E07040;   /* Rust — CTA buttons, highlights */
+  --admin-color-accent-alt: #D4A843;   /* Gold — tier badges, secondary accents */
+
+  /* ── Admin surface colours ──────────────────────────────────────── */
+  --admin-bg-app:              #F0E8D8;   /* App-level background (parchment) */
+  --admin-bg-sidebar:          #0A2E2C;   /* Teal deep sidebar */
+  --admin-bg-sidebar-hover:    #0E3D3A;   /* Teal sidebar hover */
+  --admin-bg-topbar:           #FFFFFF;
+  --admin-bg-card:             #FFFFFF;
+  --admin-bg-input:            #FAFAFA;
+
+  --admin-text-sidebar:        #FAF0E6;   /* Cream */
+  --admin-text-sidebar-muted:  rgba(250,240,230,0.50);
+  --admin-text-sidebar-active: #D4A843;   /* Gold */
+
+  /* ── Role badge colours ─────────────────────────────────────────── */
+  --badge-super-admin: #7B2D8B;
+  --badge-admin:       #1A5276;
+  --badge-barista:     #1E8449;
+  --badge-roaster:     #784212;
+
+  /* ── Status colours ─────────────────────────────────────────────── */
+  --status-completed: #1E8449;
+  --status-pending:   #D4AC0D;
+  --status-voided:    #C0392B;
+  --status-low-stock: #E67E22;
+  --status-in-stock:  #1E8449;
+
+  /* ── Loyalty tier colours ────────────────────────────────────────── */
+  --tier-bronze:   #CD7F32;
+  --tier-silver:   #A8A9AD;
+  --tier-gold:     #D4AC0D;
+  --tier-platinum: #A0B0C0;
+
+  /* ── Admin layout ────────────────────────────────────────────────── */
+  --admin-topbar-height:  64px;
+  --admin-sidebar-width:  260px;
+  --admin-content-pad:    var(--space-8);
+  --admin-card-radius:    var(--radius-lg);
+  --admin-table-row-h:    52px;
+
+  /* ── Admin font sizes ────────────────────────────────────────────── */
+  --admin-stat-value:  2rem;
+  --admin-stat-label:  0.8125rem;
+}

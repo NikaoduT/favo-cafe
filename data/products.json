@@ -1,0 +1,16 @@
+{
+  "_note": "Retail bean products — not yet stocked. Populate this file when roasting begins and update menu.json to add items with category 'retail'.",
+  "_schema": {
+    "id": "number — unique product ID",
+    "name": "string — e.g. 'Ethiopia Yirgacheffe — 250g'",
+    "origin": "string — country or region",
+    "process": "string — e.g. 'Washed', 'Natural', 'Honey'",
+    "roastLevel": "string — 'light' | 'medium' | 'dark'",
+    "flavorNotes": "array of strings — e.g. ['blueberry', 'dark chocolate', 'caramel']",
+    "weightGrams": "number — e.g. 250",
+    "price_cents": "number — price in ZAR cents",
+    "available": "boolean",
+    "imageUrl": "string | null"
+  },
+  "products": []
+}

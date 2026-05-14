@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Favo Cafe</title>
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="css/admin-tokens.css">
+  <link rel="stylesheet" href="css/admin-layout.css">
+</head>
+<body class="admin-app">
+
+  <nav class="admin-sidebar" aria-label="Admin navigation">
+    <header class="admin-sidebar__header">
+      <span class="admin-sidebar__logo-text">Favo Cafe</span>
+      <span class="admin-sidebar__tagline">Admin</span>
+    </header>
+    <ul class="admin-sidebar__nav" role="list">
+      <li class="admin-sidebar__item admin-sidebar__item--active">
+        <a class="admin-sidebar__link" href="/admin/dashboard.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Dashboard
+        </a>
+      </li>
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/pos.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          Point of Sale
+        </a>
+      </li>
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/inventory.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          Inventory
+        </a>
+      </li>
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/crm.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Customers
+        </a>
+      </li>
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/loyalty.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Loyalty
+        </a>
+      </li>
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/users.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Staff Users
+        </a>
+      </li>
+    </ul>
+    <footer class="admin-sidebar__footer">
+      <button class="admin-sidebar__logout" id="logout-btn" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sign out
+      </button>
+    </footer>
+  </nav>
+
+  <div class="admin-content">
+
+    <header class="admin-topbar">
+      <h1 class="admin-topbar__title">Dashboard</h1>
+      <div class="admin-topbar__user" id="topbar-user"></div>
+    </header>
+
+    <main class="admin-main" id="main-content">
+
+      <section class="admin-stats" aria-label="Key metrics">
+        <article class="stat-card" id="stat-orders">
+          <p class="stat-card__label">Orders Today</p>
+          <p class="stat-card__value" id="stat-orders-value">—</p>
+        </article>
+        <article class="stat-card" id="stat-sales">
+          <p class="stat-card__label">Today's Revenue</p>
+          <p class="stat-card__value" id="stat-sales-value">—</p>
+        </article>
+        <article class="stat-card" id="stat-customers">
+          <p class="stat-card__label">Active Customers</p>
+          <p class="stat-card__value" id="stat-customers-value">—</p>
+        </article>
+        <article class="stat-card stat-card--alert" id="stat-lowstock">
+          <p class="stat-card__label">Low Stock Items</p>
+          <p class="stat-card__value" id="stat-lowstock-value">—</p>
+        </article>
+      </section>
+
+      <section class="admin-panel" aria-labelledby="recent-orders-heading">
+        <header class="admin-panel__header">
+          <h2 class="admin-panel__title" id="recent-orders-heading">Recent Orders</h2>
+        </header>
+        <div class="admin-panel__body" id="recent-orders">
+          <p class="admin-empty">Loading orders…</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="js/admin-auth.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

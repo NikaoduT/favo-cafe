@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customers — Favo Cafe</title>
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="css/admin-tokens.css">
+  <link rel="stylesheet" href="css/admin-layout.css">
+  <link rel="stylesheet" href="css/crm.css">
+</head>
+<body class="admin-app">
+
+  <nav class="admin-sidebar" aria-label="Admin navigation">
+    <header class="admin-sidebar__header">
+      <span class="admin-sidebar__logo-text">Favo Cafe</span>
+      <span class="admin-sidebar__tagline">Admin</span>
+    </header>
+    <ul class="admin-sidebar__nav" role="list">
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/dashboard.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Dashboard
+        </a>
+      </li>
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/pos.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          Point of Sale
+        </a>
+      </li>
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/inventory.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          Inventory
+        </a>
+      </li>
+      <li class="admin-sidebar__item admin-sidebar__item--active">
+        <a class="admin-sidebar__link" href="/admin/crm.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Customers
+        </a>
+      </li>
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/loyalty.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Loyalty
+        </a>
+      </li>
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/users.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Staff Users
+        </a>
+      </li>
+    </ul>
+    <footer class="admin-sidebar__footer">
+      <button class="admin-sidebar__logout" id="logout-btn" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sign out
+      </button>
+    </footer>
+  </nav>
+
+  <div class="admin-content">
+
+    <header class="admin-topbar">
+      <h1 class="admin-topbar__title">Customers</h1>
+      <div class="admin-topbar__user" id="topbar-user"></div>
+    </header>
+
+    <main class="admin-main" id="main-content">
+
+      <!-- Stats Row -->
+      <section class="admin-stats" aria-label="Customer metrics">
+        <article class="stat-card" id="stat-total">
+          <p class="stat-card__label">Total Customers</p>
+          <p class="stat-card__value" id="stat-total-value">—</p>
+        </article>
+        <article class="stat-card" id="stat-members">
+          <p class="stat-card__label">Loyalty Members</p>
+          <p class="stat-card__value" id="stat-members-value">—</p>
+        </article>
+        <article class="stat-card stat-card--alert" id="stat-elite">
+          <p class="stat-card__label">Gold &amp; Platinum</p>
+          <p class="stat-card__value" id="stat-elite-value">—</p>
+        </article>
+      </section>
+
+      <!-- Customer Table Panel -->
+      <section class="admin-panel crm-panel" aria-labelledby="crm-table-heading">
+
+        <header class="admin-panel__header crm-panel__header">
+          <h2 class="admin-panel__title" id="crm-table-heading">All Customers</h2>
+          <div class="crm-toolbar" role="search" aria-label="Filter customers">
+            <div class="crm-toolbar__search-wrap">
+              <label for="crm-search" class="crm-toolbar__search-label">Search customers</label>
+              <input
+                class="crm-toolbar__search"
+                id="crm-search"
+                type="search"
+                placeholder="Name, email or phone…"
+                autocomplete="off"
+                aria-label="Search customers by name, email or phone"
+              >
+              <svg class="crm-toolbar__search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            </div>
+            <div class="crm-toolbar__filter-wrap">
+              <label for="crm-tier-filter" class="crm-toolbar__filter-label">Filter by tier</label>
+              <select class="crm-toolbar__filter" id="crm-tier-filter" aria-label="Filter customers by loyalty tier">
+                <option value="">All Tiers</option>
+                <option value="bronze">Bronze</option>
+                <option value="silver">Silver</option>
+                <option value="gold">Gold</option>
+                <option value="platinum">Platinum</option>
+              </select>
+            </div>
+            <button class="crm-toolbar__add-btn" id="crm-add-btn" type="button">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Customer
+            </button>
+          </div>
+        </header>
+
+        <div class="admin-panel__body crm-panel__body" id="crm-table-container">
+          <p class="admin-empty">Loading customers…</p>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ── Profile Slide-Over ───────────────────────────────────────────────── -->
+  <div class="crm-overlay" id="crm-profile-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="crm-profile-name">
+    <div class="crm-overlay__backdrop" id="crm-profile-backdrop"></div>
+    <aside class="crm-profile" id="crm-profile-panel">
+      <header class="crm-profile__header">
+        <h2 class="crm-profile__name" id="crm-profile-name">Customer Profile</h2>
+        <button class="crm-profile__close" id="crm-profile-close" type="button" aria-label="Close profile">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </header>
+      <div class="crm-profile__body" id="crm-profile-body">
+        <p class="admin-empty">Loading…</p>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ── Add / Edit Modal ─────────────────────────────────────────────────── -->
+  <div class="crm-overlay" id="crm-form-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="crm-form-title">
+    <div class="crm-overlay__backdrop" id="crm-form-backdrop"></div>
+    <div class="crm-modal" id="crm-form-modal">
+      <header class="crm-modal__header">
+        <h2 class="crm-modal__title" id="crm-form-title">Add Customer</h2>
+        <button class="crm-modal__close" id="crm-form-close" type="button" aria-label="Close form">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </header>
+      <form class="crm-modal__form" id="crm-customer-form" novalidate>
+        <input type="hidden" id="crm-form-customer-id">
+        <fieldset class="crm-form__fieldset">
+          <legend class="crm-form__legend">Customer Details</legend>
+          <div class="crm-form__row">
+            <div class="crm-form__field">
+              <label class="crm-form__label" for="crm-field-first-name">First Name</label>
+              <input
+                class="crm-form__input"
+                id="crm-field-first-name"
+                name="firstName"
+                type="text"
+                autocomplete="given-name"
+                required
+                placeholder="e.g. Amara"
+              >
+              <span class="crm-form__error" id="crm-error-first-name" role="alert"></span>
+            </div>
+            <div class="crm-form__field">
+              <label class="crm-form__label" for="crm-field-last-name">Last Name</label>
+              <input
+                class="crm-form__input"
+                id="crm-field-last-name"
+                name="lastName"
+                type="text"
+                autocomplete="family-name"
+                required
+                placeholder="e.g. Dlamini"
+              >
+              <span class="crm-form__error" id="crm-error-last-name" role="alert"></span>
+            </div>
+          </div>
+          <div class="crm-form__field">
+            <label class="crm-form__label" for="crm-field-email">Email Address</label>
+            <input
+              class="crm-form__input"
+              id="crm-field-email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              placeholder="e.g. amara@example.com"
+            >
+            <span class="crm-form__error" id="crm-error-email" role="alert"></span>
+          </div>
+          <div class="crm-form__field">
+            <label class="crm-form__label" for="crm-field-phone">Phone Number</label>
+            <input
+              class="crm-form__input"
+              id="crm-field-phone"
+              name="phone"
+              type="tel"
+              autocomplete="tel"
+              placeholder="e.g. 082 555 0123"
+            >
+            <span class="crm-form__error" id="crm-error-phone" role="alert"></span>
+          </div>
+        </fieldset>
+        <p class="crm-form__api-error" id="crm-form-api-error" role="alert" aria-live="polite"></p>
+        <footer class="crm-modal__footer">
+          <button class="crm-form__cancel-btn" id="crm-form-cancel" type="button">Cancel</button>
+          <button class="crm-form__submit-btn" id="crm-form-submit" type="submit">Save Customer</button>
+        </footer>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/admin-auth.js"></script>
+  <script src="js/crm.js"></script>
+</body>
+</html>

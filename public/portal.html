@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Your Favo Cafe loyalty portal — stamps, order ahead, and account settings.">
+  <title>My Portal — Favo Cafe</title>
+
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/components/portal.css">
+</head>
+<body class="portal-page">
+
+  <a class="portal-skip" href="#portal-main">Skip to main content</a>
+
+  <header class="portal-header" role="banner">
+    <div class="portal-header__inner">
+      <a class="portal-header__logo" href="/" aria-label="Favo Cafe — home">
+        <img src="/assets/icons/favo-logo.svg" alt="Favo Cafe">
+      </a>
+      <button class="portal-header__signout" id="signout-btn" type="button">Sign out</button>
+    </div>
+  </header>
+
+  <main id="portal-main">
+
+    <!-- SECTION 1: STAMP CARD -->
+    <section class="stamp-card" aria-labelledby="stamp-card-heading">
+      <div class="stamp-card__inner">
+        <p class="portal-eyebrow">Loyalty</p>
+        <h2 class="stamp-card__heading" id="stamp-card-heading">Your stamps</h2>
+
+        <div class="stamp-card__circles" id="stamp-circles" role="img" aria-label="Stamp progress"></div>
+
+        <p class="stamp-card__progress" id="stamp-progress"></p>
+
+        <aside class="stamp-card__reward" id="reward-banner" aria-live="polite" hidden>
+          Free coffee ready — show this to the barista
+        </aside>
+      </div>
+    </section>
+
+    <!-- SECTION 2: YOUR USUAL -->
+    <section class="usual-order" aria-labelledby="usual-order-heading">
+      <div class="usual-order__inner">
+        <p class="portal-eyebrow">Quick access</p>
+        <h2 class="usual-order__heading" id="usual-order-heading">Your usual</h2>
+
+        <form class="usual-order__form" id="usual-form" novalidate>
+          <div class="usual-order__field">
+            <label class="usual-order__label" for="usual-drink">Drink</label>
+            <select class="usual-order__select" id="usual-drink" name="usual-drink">
+              <option value="">Loading menu...</option>
+            </select>
+          </div>
+
+          <fieldset class="usual-order__fieldset">
+            <legend class="usual-order__legend">Milk choice</legend>
+            <div class="usual-order__radios">
+              <label class="usual-order__radio-label">
+                <input class="usual-order__radio" type="radio" name="usual-milk" value="Full Cream" checked>
+                Full Cream
+              </label>
+              <label class="usual-order__radio-label">
+                <input class="usual-order__radio" type="radio" name="usual-milk" value="Oat Milk">
+                Oat Milk
+              </label>
+              <label class="usual-order__radio-label">
+                <input class="usual-order__radio" type="radio" name="usual-milk" value="Almond Milk">
+                Almond Milk
+              </label>
+            </div>
+          </fieldset>
+
+          <label class="usual-order__check-label">
+            <input class="usual-order__check" type="checkbox" id="usual-extrashot" name="usual-extrashot">
+            Extra shot (+R10)
+          </label>
+
+          <button class="usual-order__save btn btn--rust" type="button" id="usual-save-btn">Save usual</button>
+          <p class="usual-order__confirm" id="usual-confirm" aria-live="polite" hidden>Saved</p>
+        </form>
+      </div>
+    </section>
+
+    <!-- SECTION 3: ORDER AHEAD -->
+    <section class="order-form" aria-labelledby="order-form-heading">
+      <div class="order-form__inner">
+        <p class="portal-eyebrow">Place an order</p>
+        <h2 class="order-form__heading" id="order-form-heading">Order ahead</h2>
+
+        <form class="order-form__form" id="order-ahead-form" novalidate>
+          <div class="order-form__field">
+            <label class="order-form__label" for="order-drink">Drink</label>
+            <select class="order-form__select" id="order-drink" name="order-drink">
+              <option value="">Loading menu...</option>
+            </select>
+          </div>
+
+          <fieldset class="order-form__fieldset">
+            <legend class="order-form__legend">Milk choice</legend>
+            <div class="order-form__radios">
+              <label class="order-form__radio-label">
+                <input class="order-form__radio" type="radio" name="order-milk" value="Full Cream" checked>
+                Full Cream
+              </label>
+              <label class="order-form__radio-label">
+                <input class="order-form__radio" type="radio" name="order-milk" value="Oat Milk">
+                Oat Milk
+              </label>
+              <label class="order-form__radio-label">
+                <input class="order-form__radio" type="radio" name="order-milk" value="Almond Milk">
+                Almond Milk
+              </label>
+            </div>
+          </fieldset>
+
+          <label class="order-form__check-label">
+            <input class="order-form__check" type="checkbox" id="order-extrashot" name="order-extrashot">
+            Extra shot (+R10)
+          </label>
+
+          <div class="order-form__field">
+            <label class="order-form__label" for="order-notes">Notes</label>
+            <input
+              class="order-form__input"
+              type="text"
+              id="order-notes"
+              name="order-notes"
+              placeholder="Any notes for the barista?"
+              maxlength="200"
+            >
+          </div>
+
+          <p class="order-form__price" id="order-price" aria-live="polite">R0.00</p>
+
+          <button class="order-form__submit btn btn--rust" type="submit" id="order-submit-btn">Place order</button>
+          <p class="order-form__error" id="order-error" role="alert" aria-live="assertive" hidden></p>
+        </form>
+
+        <aside class="order-form__confirmation" id="order-confirmation" hidden>
+          <p class="order-form__confirmation-title">Order placed! See you soon</p>
+          <p class="order-form__confirmation-summary" id="order-summary"></p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- SECTION 4: ACCOUNT SETTINGS -->
+    <section class="account-settings" aria-labelledby="account-settings-heading">
+      <div class="account-settings__inner">
+        <p class="portal-eyebrow">Details</p>
+        <h2 class="account-settings__heading" id="account-settings-heading">Account</h2>
+
+        <!-- Change email -->
+        <div class="account-settings__group">
+          <div class="account-settings__row">
+            <span class="account-settings__label">Email</span>
+            <span class="account-settings__value" id="account-email-display"></span>
+            <button class="account-settings__toggle btn btn--ghost-teal" type="button" aria-expanded="false" aria-controls="email-form">Change</button>
+          </div>
+          <form class="account-settings__form" id="email-form" hidden novalidate>
+            <div class="account-settings__field">
+              <label class="account-settings__field-label" for="new-email">New email</label>
+              <input class="account-settings__input" type="email" id="new-email" name="new-email" autocomplete="email">
+            </div>
+            <button class="account-settings__submit btn btn--rust btn--sm" type="submit">Save</button>
+            <p class="account-settings__msg" id="email-msg" aria-live="polite" hidden></p>
+          </form>
+        </div>
+
+        <!-- Change phone -->
+        <div class="account-settings__group">
+          <div class="account-settings__row">
+            <span class="account-settings__label">Phone</span>
+            <span class="account-settings__value" id="account-phone-display"></span>
+            <button class="account-settings__toggle btn btn--ghost-teal" type="button" aria-expanded="false" aria-controls="phone-form">Change</button>
+          </div>
+          <form class="account-settings__form" id="phone-form" hidden novalidate>
+            <div class="account-settings__field">
+              <label class="account-settings__field-label" for="new-phone">New phone</label>
+              <input class="account-settings__input" type="tel" id="new-phone" name="new-phone" autocomplete="tel">
+            </div>
+            <button class="account-settings__submit btn btn--rust btn--sm" type="submit">Save</button>
+            <p class="account-settings__msg" id="phone-msg" aria-live="polite" hidden></p>
+          </form>
+        </div>
+
+        <!-- Change PIN -->
+        <div class="account-settings__group">
+          <div class="account-settings__row">
+            <span class="account-settings__label">PIN</span>
+            <span class="account-settings__value">••••••</span>
+            <button class="account-settings__toggle btn btn--ghost-teal" type="button" aria-expanded="false" aria-controls="pin-form">Change PIN</button>
+          </div>
+          <form class="account-settings__form" id="pin-form" hidden novalidate>
+            <div class="account-settings__field">
+              <label class="account-settings__field-label" for="current-pin">Current PIN</label>
+              <input class="account-settings__input" type="password" id="current-pin" name="current-pin" maxlength="6" inputmode="numeric" pattern="[0-9]{4,6}">
+            </div>
+            <div class="account-settings__field">
+              <label class="account-settings__field-label" for="new-pin">New PIN (6 digits)</label>
+              <input class="account-settings__input" type="password" id="new-pin" name="new-pin" maxlength="6" minlength="6" inputmode="numeric" pattern="[0-9]{6}">
+            </div>
+            <div class="account-settings__field">
+              <label class="account-settings__field-label" for="confirm-pin">Confirm new PIN</label>
+              <input class="account-settings__input" type="password" id="confirm-pin" name="confirm-pin" maxlength="6" minlength="6" inputmode="numeric" pattern="[0-9]{6}">
+            </div>
+            <button class="account-settings__submit btn btn--rust btn--sm" type="submit">Save</button>
+            <p class="account-settings__msg" id="pin-msg" aria-live="polite" hidden></p>
+          </form>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script src="/js/portal.js"></script>
+</body>
+</html>

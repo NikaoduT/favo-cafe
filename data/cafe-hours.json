@@ -1,0 +1,20 @@
+{
+  "timezone": "Africa/Johannesburg",
+  "weekly": {
+    "mon": { "open": "08:30", "close": "09:30" },
+    "tue": { "open": "08:30", "close": "09:30" },
+    "wed": { "open": "08:30", "close": "09:30" },
+    "thu": { "open": "08:30", "close": "09:30" },
+    "fri": { "open": "08:30", "close": "09:30" },
+    "sat": null,
+    "sun": { "open": "07:50", "close": "09:15" }
+  },
+  "orderAhead": {
+    "leadMinutes": 10,
+    "cutoffMinutes": 5,
+    "slotMinutes": 5
+  },
+  "notes": {
+    "untracked": "Favo also serves at the monthly Untracked Church service. Order-ahead is not available for these events. See https://hofmi.net/untracked/ for details."
+  }
+}

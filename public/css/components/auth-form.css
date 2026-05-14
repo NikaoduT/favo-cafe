@@ -1,0 +1,247 @@
+/* auth-form.css — Login & registration page
+   BEM block: login-page, auth-form
+   ──────────────────────────────────────── */
+
+/* ── Page wrapper ──────────────────────────────────────────── */
+.login-page {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--color-teal-deep);
+  display: flex;
+  flex-direction: column;
+}
+
+.login-page__main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8) var(--space-4);
+}
+
+.login-page__inner {
+  width: 100%;
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.login-page__logo {
+  display: inline-block;
+}
+
+.login-page__logo-img {
+  height: 52px;
+  width: auto;
+  display: block;
+  /* SVG is white — invert not needed, it's already white on teal */
+}
+
+/* ── Card ────────────────────────────────────────────────────── */
+.auth-form {
+  width: 100%;
+  background: var(--color-cream);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+}
+
+/* ── Tabs ────────────────────────────────────────────────────── */
+.auth-form__tabs {
+  display: flex;
+  border-bottom: 2px solid rgba(10,46,44,0.10);
+}
+
+.auth-form__tab {
+  flex: 1;
+  padding: var(--space-4) var(--space-6);
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-teal-deep);
+  opacity: 0.45;
+  cursor: pointer;
+  transition: opacity 0.2s, border-color 0.2s;
+  margin-bottom: -2px;
+}
+
+.auth-form__tab--active {
+  opacity: 1;
+  border-bottom-color: var(--color-rust);
+}
+
+.auth-form__tab:hover:not(.auth-form__tab--active) {
+  opacity: 0.7;
+}
+
+/* ── Panel ───────────────────────────────────────────────────── */
+.auth-form__panel {
+  padding: var(--space-8);
+}
+
+.auth-form__panel--hidden {
+  display: none;
+}
+
+/* ── Form groups ─────────────────────────────────────────────── */
+.auth-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.auth-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+
+.auth-form__label {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--color-teal-deep);
+}
+
+.auth-form__label--optional::after {
+  content: ' — optional';
+  font-weight: 400;
+  opacity: 0.55;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* ── Inputs ──────────────────────────────────────────────────── */
+.auth-form__input {
+  padding: var(--space-3) var(--space-4);
+  border: 1.5px solid rgba(10,46,44,0.18);
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  color: var(--color-ink);
+  background: #fff;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.auth-form__input:focus {
+  border-color: var(--color-teal);
+  box-shadow: 0 0 0 3px rgba(14,61,58,0.12);
+}
+
+.auth-form__input::placeholder {
+  color: rgba(13,13,13,0.35);
+}
+
+.auth-form__input--pin {
+  font-size: var(--text-lg);
+  letter-spacing: 0.25em;
+  padding-right: var(--space-12);
+}
+
+/* ── PIN row (input + show/hide toggle) ──────────────────────── */
+.auth-form__pin-row {
+  position: relative;
+}
+
+.auth-form__pin-row .auth-form__input {
+  padding-right: 3rem;
+}
+
+.auth-form__pin-toggle {
+  position: absolute;
+  top: 50%;
+  right: var(--space-3);
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(10,46,44,0.45);
+  padding: var(--space-1);
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+
+.auth-form__pin-toggle:hover {
+  color: var(--color-teal-deep);
+}
+
+/* ── Submit button ───────────────────────────────────────────── */
+.auth-form__btn {
+  width: 100%;
+  padding: var(--space-4);
+  background: var(--color-rust);
+  color: var(--color-cream);
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+  margin-top: var(--space-2);
+}
+
+.auth-form__btn:hover:not(:disabled) {
+  background: var(--color-rust-deep);
+}
+
+.auth-form__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Error message ───────────────────────────────────────────── */
+.auth-form__error {
+  display: none;
+  padding: var(--space-3) var(--space-4);
+  background: rgba(184,85,48,0.08);
+  border: 1px solid rgba(184,85,48,0.3);
+  border-radius: var(--radius-md);
+  color: var(--color-rust-deep);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-4);
+}
+
+.auth-form__error--visible {
+  display: block;
+}
+
+/* ── Footer note ─────────────────────────────────────────────── */
+.auth-form__note {
+  margin-top: var(--space-5);
+  font-size: var(--text-xs);
+  color: rgba(10,46,44,0.45);
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+/* ── Mobile ──────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .auth-form__row {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-form__panel {
+    padding: var(--space-6);
+  }
+
+  .login-page__logo-img {
+    height: 44px;
+  }
+}

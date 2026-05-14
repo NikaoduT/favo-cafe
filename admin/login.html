@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login — Favo Cafe &amp; Roastery</title>
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="css/admin-tokens.css">
+  <link rel="stylesheet" href="css/admin-login.css">
+</head>
+<body class="login-page">
+
+  <main class="login-page__main">
+
+    <section class="login-card" aria-labelledby="login-heading">
+
+      <header class="login-card__header">
+        <figure class="login-card__logo" aria-label="Favo Cafe &amp; Roastery logo">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="48" height="48" fill="#E07040"/>
+            <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="Josefin Sans, sans-serif" font-weight="700" font-size="26" letter-spacing="0.05em" fill="#FAF0E6">F</text>
+          </svg>
+        </figure>
+        <h1 class="login-card__title" id="login-heading">Favo Cafe</h1>
+        <p class="login-card__subtitle">Admin Portal</p>
+      </header>
+
+      <form class="login-form" id="login-form" novalidate>
+
+        <div class="login-form__field">
+          <label class="login-form__label" for="email">Email address</label>
+          <input
+            class="login-form__input"
+            type="email"
+            id="email"
+            name="email"
+            autocomplete="email"
+            placeholder="you@favocafe.co.za"
+            required
+          >
+          <span class="login-form__error" id="email-error" role="alert" aria-live="polite"></span>
+        </div>
+
+        <div class="login-form__field">
+          <label class="login-form__label" for="password">Password</label>
+          <div class="login-form__input-wrapper">
+            <input
+              class="login-form__input"
+              type="password"
+              id="password"
+              name="password"
+              autocomplete="current-password"
+              placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"
+              required
+            >
+            <button
+              class="login-form__toggle-password"
+              type="button"
+              aria-label="Show password"
+              data-target="password"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+          <span class="login-form__error" id="password-error" role="alert" aria-live="polite"></span>
+        </div>
+
+        <div class="login-form__alert" id="form-alert" role="alert" aria-live="assertive" hidden></div>
+
+        <button class="login-form__submit" type="submit" id="submit-btn">
+          <span class="login-form__submit-label">Sign in</span>
+          <span class="login-form__submit-spinner" aria-hidden="true" hidden></span>
+        </button>
+
+      </form>
+
+      <footer class="login-card__footer">
+        <p>Staff access only. <a href="/" class="login-card__back-link">Return to website →</a></p>
+      </footer>
+
+    </section>
+
+  </main>
+
+  <script src="js/admin-auth.js"></script>
+  <script>
+    // Login form handler
+    const form = document.getElementById('login-form');
+    const alert = document.getElementById('form-alert');
+    const submitBtn = document.getElementById('submit-btn');
+    const submitLabel = submitBtn.querySelector('.login-form__submit-label');
+    const submitSpinner = submitBtn.querySelector('.login-form__submit-spinner');
+
+    // Toggle password visibility
+    document.querySelectorAll('.login-form__toggle-password').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const input = document.getElementById(btn.dataset.target);
+        const isHidden = input.type === 'password';
+        input.type = isHidden ? 'text' : 'password';
+        btn.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+      });
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      // Client-side validation
+      let hasError = false;
+      document.getElementById('email-error').textContent = '';
+      document.getElementById('password-error').textContent = '';
+      alert.hidden = true;
+
+      if (!email) {
+        document.getElementById('email-error').textContent = 'Email is required';
+        hasError = true;
+      }
+      if (!password) {
+        document.getElementById('password-error').textContent = 'Password is required';
+        hasError = true;
+      }
+      if (hasError) return;
+
+      // Submit
+      submitLabel.textContent = 'Signing in…';
+      submitSpinner.hidden = false;
+      submitBtn.disabled = true;
+
+      try {
+        const result = await adminAuth.login(email, password);
+        if (result.success) {
+          // Redirect based on role
+          const role = result.user.role;
+          if (role === 'roaster') {
+            window.location.href = '/admin/inventory.html';
+          } else if (role === 'barista') {
+            window.location.href = '/admin/pos.html';
+          } else {
+            window.location.href = '/admin/dashboard.html';
+          }
+        } else {
+          throw new Error(result.error || 'Login failed');
+        }
+      } catch (err) {
+        alert.textContent = err.message;
+        alert.hidden = false;
+        submitLabel.textContent = 'Sign in';
+        submitSpinner.hidden = true;
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sign in or create an account — Favo Cafe rewards.">
+  <title>Sign in — Favo Cafe</title>
+
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/components/auth-form.css">
+</head>
+<body class="login-page">
+
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <main class="login-page__main" id="main-content">
+    <div class="login-page__inner">
+
+      <!-- Logo -->
+      <a class="login-page__logo" href="/" aria-label="Favo Cafe — home">
+        <img
+          src="/assets/icons/favo-logo.svg"
+          alt="Favo Cafe"
+          class="login-page__logo-img"
+          width="120"
+          height="60"
+        >
+      </a>
+
+      <section class="auth-form" aria-label="Account access">
+
+        <!-- Tabs -->
+        <div class="auth-form__tabs" role="tablist">
+          <button
+            class="auth-form__tab auth-form__tab--active"
+            id="tab-signin"
+            role="tab"
+            aria-selected="true"
+            aria-controls="panel-signin"
+            type="button"
+          >Sign in</button>
+          <button
+            class="auth-form__tab"
+            id="tab-register"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-register"
+            type="button"
+          >Create account</button>
+        </div>
+
+        <!-- Sign In panel -->
+        <div
+          class="auth-form__panel"
+          id="panel-signin"
+          role="tabpanel"
+          aria-labelledby="tab-signin"
+        >
+          <form id="signin-form" novalidate>
+
+            <div class="auth-form__group">
+              <label class="auth-form__label" for="signin-email">Email</label>
+              <input
+                class="auth-form__input"
+                id="signin-email"
+                name="email"
+                type="email"
+                inputmode="email"
+                autocomplete="email"
+                required
+                placeholder="you@example.com"
+              >
+            </div>
+
+            <div class="auth-form__group">
+              <label class="auth-form__label" for="signin-pin">6-digit PIN</label>
+              <div class="auth-form__pin-row">
+                <input
+                  class="auth-form__input auth-form__input--pin"
+                  id="signin-pin"
+                  name="pin"
+                  type="password"
+                  inputmode="numeric"
+                  autocomplete="current-password"
+                  maxlength="6"
+                  required
+                  placeholder="••••••"
+                >
+                <button
+                  class="auth-form__pin-toggle"
+                  type="button"
+                  data-toggle-pin="signin-pin"
+                  aria-label="Show PIN"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <p class="auth-form__error" id="signin-error" role="alert" aria-live="polite"></p>
+
+            <button class="auth-form__btn" type="submit" id="signin-submit">
+              <span id="signin-label">Sign in</span>
+            </button>
+
+          </form>
+
+          <p class="auth-form__note">Staff and admin access via the same login.</p>
+        </div>
+
+        <!-- Create Account panel -->
+        <div
+          class="auth-form__panel auth-form__panel--hidden"
+          id="panel-register"
+          role="tabpanel"
+          aria-labelledby="tab-register"
+        >
+          <form id="register-form" novalidate>
+
+            <div class="auth-form__row">
+              <div class="auth-form__group">
+                <label class="auth-form__label" for="reg-first">First name</label>
+                <input
+                  class="auth-form__input"
+                  id="reg-first"
+                  name="firstName"
+                  type="text"
+                  autocomplete="given-name"
+                  required
+                  placeholder="First"
+                >
+              </div>
+              <div class="auth-form__group">
+                <label class="auth-form__label" for="reg-last">Last name</label>
+                <input
+                  class="auth-form__input"
+                  id="reg-last"
+                  name="lastName"
+                  type="text"
+                  autocomplete="family-name"
+                  required
+                  placeholder="Last"
+                >
+              </div>
+            </div>
+
+            <div class="auth-form__group">
+              <label class="auth-form__label" for="reg-email">Email</label>
+              <input
+                class="auth-form__input"
+                id="reg-email"
+                name="email"
+                type="email"
+                inputmode="email"
+                autocomplete="email"
+                required
+                placeholder="you@example.com"
+              >
+            </div>
+
+            <div class="auth-form__group">
+              <label class="auth-form__label auth-form__label--optional" for="reg-phone">Phone number</label>
+              <input
+                class="auth-form__input"
+                id="reg-phone"
+                name="phone"
+                type="tel"
+                inputmode="tel"
+                autocomplete="tel"
+                placeholder="082 555 0123"
+              >
+            </div>
+
+            <div class="auth-form__group">
+              <label class="auth-form__label" for="reg-pin">Choose a 6-digit PIN</label>
+              <div class="auth-form__pin-row">
+                <input
+                  class="auth-form__input auth-form__input--pin"
+                  id="reg-pin"
+                  name="pin"
+                  type="password"
+                  inputmode="numeric"
+                  autocomplete="new-password"
+                  maxlength="6"
+                  required
+                  placeholder="••••••"
+                >
+                <button
+                  class="auth-form__pin-toggle"
+                  type="button"
+                  data-toggle-pin="reg-pin"
+                  aria-label="Show PIN"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="auth-form__group">
+              <label class="auth-form__label" for="reg-pin-confirm">Confirm PIN</label>
+              <input
+                class="auth-form__input auth-form__input--pin"
+                id="reg-pin-confirm"
+                name="pinConfirm"
+                type="password"
+                inputmode="numeric"
+                autocomplete="new-password"
+                maxlength="6"
+                required
+                placeholder="••••••"
+              >
+            </div>
+
+            <p class="auth-form__error" id="register-error" role="alert" aria-live="polite"></p>
+
+            <button class="auth-form__btn" type="submit" id="register-submit">
+              <span id="register-label">Create account</span>
+            </button>
+
+          </form>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <script src="/js/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Users — Favo Cafe</title>
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="css/admin-tokens.css">
+  <link rel="stylesheet" href="css/admin-layout.css">
+  <style>
+    /* ── Users module (BEM: users-) ──────────────────────────────────── */
+    .users-toolbar {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-4) var(--space-6);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .users-toolbar__search-wrap {
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+    .users-toolbar__search-icon {
+      position: absolute;
+      left: var(--space-3);
+      color: var(--color-text-muted);
+      pointer-events: none;
+    }
+    .users-toolbar__search-label {
+      position: absolute;
+      width: 1px; height: 1px;
+      overflow: hidden; clip: rect(0,0,0,0);
+    }
+    .users-toolbar__search {
+      width: 100%;
+      padding: var(--space-2) var(--space-3) var(--space-2) calc(var(--space-3) + 16px + var(--space-2));
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      color: var(--color-text-primary);
+      background: var(--admin-bg-input);
+      outline: none;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    .users-toolbar__search:focus {
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px rgba(184,115,51,0.12);
+    }
+    .users-toolbar__add-btn {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-4);
+      background: var(--color-accent);
+      color: var(--color-milk);
+      border: none;
+      border-radius: var(--radius-md);
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity var(--transition-fast);
+    }
+    .users-toolbar__add-btn:hover { opacity: 0.88; }
+
+    /* Role badges */
+    .users-role-badge {
+      display: inline-block;
+      padding: 2px var(--space-3);
+      border-radius: var(--radius-full);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      text-transform: capitalize;
+      letter-spacing: 0.03em;
+    }
+    .users-role-badge--super_admin { background: rgba(123,45,139,0.12); color: var(--badge-super-admin); }
+    .users-role-badge--admin       { background: rgba(26,82,118,0.12);  color: var(--badge-admin); }
+    .users-role-badge--barista     { background: rgba(30,132,73,0.12);  color: var(--badge-barista); }
+    .users-role-badge--roaster     { background: rgba(120,66,18,0.12);  color: var(--badge-roaster); }
+
+    .users-status-dot {
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: var(--radius-full);
+    }
+    .users-status-dot--active   { background: var(--status-completed); }
+    .users-status-dot--inactive { background: var(--color-text-muted); }
+
+    /* Action buttons */
+    .users-actions { display: flex; gap: var(--space-2); }
+    .users-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      font-family: var(--font-sans);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      cursor: pointer;
+      transition: background var(--transition-fast);
+    }
+    .users-btn--edit   { background: rgba(31,97,141,0.08); color: #1F618D; border-color: rgba(31,97,141,0.2); }
+    .users-btn--edit:hover { background: rgba(31,97,141,0.16); }
+    .users-btn--toggle { background: rgba(120,66,18,0.08);  color: var(--badge-roaster); border-color: rgba(120,66,18,0.2); }
+    .users-btn--toggle:hover { background: rgba(120,66,18,0.16); }
+    .users-btn--delete { background: rgba(192,57,43,0.08); color: var(--status-voided); border-color: rgba(192,57,43,0.2); }
+    .users-btn--delete:hover { background: rgba(192,57,43,0.16); }
+
+    /* Modal */
+    .users-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: var(--z-modal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-4);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-base);
+    }
+    .users-overlay:not([hidden]) { opacity: 1; pointer-events: all; }
+    .users-modal {
+      background: var(--admin-bg-card);
+      border-radius: var(--admin-card-radius);
+      box-shadow: var(--shadow-lg);
+      width: 100%;
+      max-width: 480px;
+      overflow: hidden;
+    }
+    .users-modal__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-5) var(--space-6);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .users-modal__title {
+      font-size: var(--text-lg);
+      font-weight: var(--weight-semibold);
+      color: var(--color-text-primary);
+    }
+    .users-modal__close {
+      width: 32px; height: 32px;
+      border: none; background: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      color: var(--color-text-muted);
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--transition-fast);
+    }
+    .users-modal__close:hover { background: var(--color-bg-section); }
+
+    .users-form { padding: var(--space-6); }
+    .users-form__row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+    .users-form__group {
+      display: flex; flex-direction: column; gap: var(--space-2);
+      margin-bottom: var(--space-4);
+    }
+    .users-form__label {
+      font-size: var(--text-sm);
+      font-weight: var(--weight-medium);
+      color: var(--color-text-primary);
+    }
+    .users-form__required { color: var(--status-voided); }
+    .users-form__input,
+    .users-form__select {
+      padding: var(--space-2) var(--space-3);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      color: var(--color-text-primary);
+      background: var(--admin-bg-input);
+      outline: none;
+      width: 100%;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    .users-form__input:focus,
+    .users-form__select:focus {
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px rgba(184,115,51,0.12);
+    }
+    .users-form__select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right var(--space-3) center;
+      padding-right: var(--space-8);
+      cursor: pointer;
+    }
+    .users-form__hint { font-size: var(--text-xs); color: var(--color-text-muted); }
+    .users-form__error {
+      display: none;
+      padding: var(--space-3) var(--space-4);
+      background: rgba(192,57,43,0.08);
+      border: 1px solid rgba(192,57,43,0.25);
+      border-radius: var(--radius-md);
+      font-size: var(--text-sm);
+      color: var(--status-voided);
+      margin-bottom: var(--space-4);
+    }
+    .users-modal__footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: var(--space-3);
+      padding: var(--space-4) var(--space-6);
+      border-top: 1px solid var(--color-border);
+    }
+    .users-modal__cancel {
+      padding: var(--space-2) var(--space-5);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: none;
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      color: var(--color-text-body);
+      cursor: pointer;
+      transition: background var(--transition-fast);
+    }
+    .users-modal__cancel:hover { background: var(--color-bg-section); }
+    .users-modal__save {
+      padding: var(--space-2) var(--space-5);
+      border: none;
+      border-radius: var(--radius-md);
+      background: var(--color-accent);
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+      color: var(--color-milk);
+      cursor: pointer;
+      transition: opacity var(--transition-fast);
+    }
+    .users-modal__save:hover:not(:disabled) { opacity: 0.88; }
+    .users-modal__save:disabled { opacity: 0.5; cursor: not-allowed; }
+  </style>
+</head>
+<body class="admin-app">
+
+  <nav class="admin-sidebar" aria-label="Admin navigation">
+    <header class="admin-sidebar__header">
+      <span class="admin-sidebar__logo-text">Favo Cafe</span>
+      <span class="admin-sidebar__tagline">Admin</span>
+    </header>
+    <ul class="admin-sidebar__nav" role="list">
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/dashboard.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Dashboard
+        </a>
+      </li>
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/pos.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          Point of Sale
+        </a>
+      </li>
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/inventory.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          Inventory
+        </a>
+      </li>
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/crm.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Customers
+        </a>
+      </li>
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/loyalty.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Loyalty
+        </a>
+      </li>
+      <li class="admin-sidebar__item admin-sidebar__item--active">
+        <a class="admin-sidebar__link" href="/admin/users.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Staff Users
+        </a>
+      </li>
+    </ul>
+    <footer class="admin-sidebar__footer">
+      <button class="admin-sidebar__logout" id="logout-btn" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sign out
+      </button>
+    </footer>
+  </nav>
+
+  <div class="admin-content">
+
+    <header class="admin-topbar">
+      <h1 class="admin-topbar__title">Staff Users</h1>
+      <div class="admin-topbar__user" id="topbar-user"></div>
+    </header>
+
+    <main class="admin-main" id="main-content">
+
+      <section class="admin-stats" aria-label="Staff metrics">
+        <article class="stat-card">
+          <p class="stat-card__label">Total Staff</p>
+          <p class="stat-card__value" id="stat-total-value">—</p>
+        </article>
+        <article class="stat-card">
+          <p class="stat-card__label">Active</p>
+          <p class="stat-card__value" id="stat-active-value">—</p>
+        </article>
+        <article class="stat-card">
+          <p class="stat-card__label">Baristas</p>
+          <p class="stat-card__value" id="stat-barista-value">—</p>
+        </article>
+        <article class="stat-card">
+          <p class="stat-card__label">Admins</p>
+          <p class="stat-card__value" id="stat-admin-value">—</p>
+        </article>
+      </section>
+
+      <section class="admin-panel" aria-labelledby="users-heading">
+        <header class="admin-panel__header">
+          <h2 class="admin-panel__title" id="users-heading">All Staff</h2>
+        </header>
+
+        <div class="users-toolbar">
+          <div class="users-toolbar__search-wrap">
+            <svg class="users-toolbar__search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <label class="users-toolbar__search-label" for="users-search">Search staff</label>
+            <input
+              class="users-toolbar__search"
+              type="search"
+              id="users-search"
+              placeholder="Search by name or email…"
+              autocomplete="off"
+              aria-label="Search staff members"
+            >
+          </div>
+          <button class="users-toolbar__add-btn" id="users-add-btn" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Staff Member
+          </button>
+        </div>
+
+        <div class="admin-panel__body" id="users-table-container">
+          <p class="admin-empty">Loading staff…</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Add / Edit modal -->
+  <div class="users-overlay" id="users-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="users-modal-title" hidden>
+    <div class="users-modal">
+      <header class="users-modal__header">
+        <h2 class="users-modal__title" id="users-modal-title">Add Staff Member</h2>
+        <button class="users-modal__close" id="users-modal-close" type="button" aria-label="Close modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </header>
+      <form class="users-form" id="users-form" novalidate>
+        <input type="hidden" id="users-form-id">
+        <p class="users-form__error" id="users-form-error" role="alert"></p>
+        <div class="users-form__row">
+          <div class="users-form__group">
+            <label class="users-form__label" for="users-field-first">
+              First Name <span class="users-form__required" aria-hidden="true">*</span>
+            </label>
+            <input class="users-form__input" type="text" id="users-field-first" name="firstName" required autocomplete="given-name" placeholder="e.g. Liam">
+          </div>
+          <div class="users-form__group">
+            <label class="users-form__label" for="users-field-last">
+              Last Name <span class="users-form__required" aria-hidden="true">*</span>
+            </label>
+            <input class="users-form__input" type="text" id="users-field-last" name="lastName" required autocomplete="family-name" placeholder="e.g. Nkosi">
+          </div>
+        </div>
+        <div class="users-form__group">
+          <label class="users-form__label" for="users-field-email">
+            Email Address <span class="users-form__required" aria-hidden="true">*</span>
+          </label>
+          <input class="users-form__input" type="email" id="users-field-email" name="email" required autocomplete="email" placeholder="e.g. liam@favocafe.co.za">
+        </div>
+        <div class="users-form__group">
+          <label class="users-form__label" for="users-field-role">
+            Role <span class="users-form__required" aria-hidden="true">*</span>
+          </label>
+          <select class="users-form__select" id="users-field-role" name="role" required>
+            <option value="" disabled selected>Select role…</option>
+            <option value="barista">Barista</option>
+          </select>
+        </div>
+        <div class="users-form__group" id="password-group">
+          <label class="users-form__label" for="users-field-password">
+            Password <span class="users-form__required" aria-hidden="true" id="password-required">*</span>
+          </label>
+          <input class="users-form__input" type="password" id="users-field-password" name="password" autocomplete="new-password" placeholder="Min 8 characters">
+          <p class="users-form__hint" id="password-hint">Leave blank to keep existing password when editing.</p>
+        </div>
+      </form>
+      <footer class="users-modal__footer">
+        <button class="users-modal__cancel" type="button" id="users-modal-cancel">Cancel</button>
+        <button class="users-modal__save" type="submit" form="users-form" id="users-modal-save">Save</button>
+      </footer>
+    </div>
+  </div>
+
+  <script src="js/admin-auth.js"></script>
+  <script src="js/users.js"></script>
+</body>
+</html>

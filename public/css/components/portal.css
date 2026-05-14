@@ -1,0 +1,605 @@
+/* portal.css — Customer loyalty portal
+   BEM blocks: portal-header, stamp-card, usual-order, order-form, account-settings
+   ───────────────────────────────────────────────────────────────────────────────── */
+
+/* ── Base ─────────────────────────────────────────────────────────── */
+
+.portal-page {
+  background: var(--color-cream);
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  margin: 0;
+  padding: 0;
+}
+
+.portal-skip {
+  position: absolute;
+  top: -999px;
+  left: 0;
+  padding: 0.5rem 1rem;
+  background: var(--color-rust);
+  color: var(--color-cream);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  text-decoration: none;
+  z-index: var(--z-toast);
+}
+
+.portal-skip:focus { top: 0; }
+
+/* ── Shared eyebrow label ─────────────────────────────────────────── */
+
+.portal-eyebrow {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-rust);
+  margin: 0 0 var(--space-3) 0;
+}
+
+/* Override eyebrow colour on dark section */
+.stamp-card .portal-eyebrow {
+  color: rgba(250, 240, 230, 0.65);
+}
+
+/* ── Shared button primitives ─────────────────────────────────────── */
+
+.btn {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  padding: 0.8rem 2rem;
+  transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+  line-height: 1;
+  text-decoration: none;
+}
+
+.btn--rust {
+  background: var(--color-rust);
+  color: var(--color-cream);
+}
+
+.btn--rust:hover,
+.btn--rust:focus-visible {
+  background: var(--color-rust-deep);
+  outline: none;
+}
+
+.btn--ghost-teal {
+  background: transparent;
+  color: var(--color-teal-deep);
+  border: 1.5px solid var(--color-teal-deep);
+  padding: 0.4rem 1rem;
+}
+
+.btn--ghost-teal:hover,
+.btn--ghost-teal:focus-visible {
+  background: var(--color-teal-deep);
+  color: var(--color-cream);
+  outline: none;
+}
+
+.btn--sm {
+  padding: 0.5rem 1.25rem;
+  font-size: var(--text-sm);
+}
+
+/* ── Shared input ─────────────────────────────────────────────────── */
+
+.portal-page input[type="text"],
+.portal-page input[type="email"],
+.portal-page input[type="tel"],
+.portal-page input[type="password"],
+.portal-page select,
+.usual-order__select,
+.order-form__select,
+.account-settings__input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid rgba(10, 46, 44, 0.2);
+  border-radius: var(--radius-md);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--color-ink);
+  background: #fff;
+  transition: border-color var(--transition-fast);
+  appearance: none;
+}
+
+.portal-page input:focus,
+.portal-page select:focus,
+.usual-order__select:focus,
+.order-form__select:focus,
+.account-settings__input:focus {
+  outline: none;
+  border-color: var(--color-rust);
+}
+
+/* ── Portal header ────────────────────────────────────────────────── */
+
+.portal-header {
+  background: var(--color-teal-deep);
+  padding: 0;
+}
+
+.portal-header__inner {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.portal-header__logo img {
+  display: block;
+  height: 28px;
+  width: auto;
+}
+
+.portal-header__signout {
+  background: transparent;
+  border: 1.5px solid rgba(250, 240, 230, 0.45);
+  color: var(--color-cream);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.4rem 1rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.portal-header__signout:hover,
+.portal-header__signout:focus-visible {
+  background: rgba(250, 240, 230, 0.1);
+  border-color: var(--color-cream);
+  outline: none;
+}
+
+/* ── Section layout shared ────────────────────────────────────────── */
+
+.stamp-card__inner,
+.usual-order__inner,
+.order-form__inner,
+.account-settings__inner {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+}
+
+/* ── Section 1: Stamp card ────────────────────────────────────────── */
+
+.stamp-card {
+  background: var(--color-teal-deep);
+  color: var(--color-cream);
+}
+
+.stamp-card__heading {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-cream);
+  margin: 0 0 var(--space-8) 0;
+  line-height: var(--leading-tight);
+}
+
+.stamp-card__circles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: var(--space-6);
+}
+
+.stamp-card__circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--color-rust);
+  background: transparent;
+  display: block;
+  flex-shrink: 0;
+  transition: background var(--transition-base);
+}
+
+.stamp-card__circle--filled {
+  background: var(--color-rust);
+}
+
+.stamp-card__progress {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  color: rgba(250, 240, 230, 0.7);
+  margin: 0 0 var(--space-6) 0;
+  letter-spacing: 0.03em;
+}
+
+.stamp-card__reward {
+  background: var(--color-plum, #5C1A2A);
+  color: var(--color-cream);
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-base);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-top: var(--space-4);
+}
+
+/* ── Section 2: Your usual ────────────────────────────────────────── */
+
+.usual-order {
+  background: var(--color-cream);
+}
+
+.usual-order__heading {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-teal-deep);
+  margin: 0 0 var(--space-8) 0;
+  line-height: var(--leading-tight);
+}
+
+.usual-order__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.usual-order__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.usual-order__label {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-teal-deep);
+}
+
+.usual-order__fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.usual-order__legend {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-teal-deep);
+  margin-bottom: var(--space-3);
+}
+
+.usual-order__radios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.usual-order__radio-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.usual-order__radio {
+  accent-color: var(--color-rust);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.usual-order__check-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.usual-order__check {
+  accent-color: var(--color-rust);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.usual-order__save {
+  align-self: flex-start;
+}
+
+.usual-order__confirm {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  color: var(--color-rust);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+/* ── Section 3: Order ahead ───────────────────────────────────────── */
+
+.order-form {
+  background: var(--color-cream);
+  border-top: 1px solid rgba(10, 46, 44, 0.1);
+}
+
+.order-form__heading {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-teal-deep);
+  margin: 0 0 var(--space-8) 0;
+  line-height: var(--leading-tight);
+}
+
+.order-form__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.order-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.order-form__label {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-teal-deep);
+}
+
+.order-form__fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.order-form__legend {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-teal-deep);
+  margin-bottom: var(--space-3);
+}
+
+.order-form__radios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.order-form__radio-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.order-form__radio {
+  accent-color: var(--color-rust);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.order-form__check-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.order-form__check {
+  accent-color: var(--color-rust);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.order-form__price {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-rust);
+  text-align: center;
+  margin: var(--space-4) 0;
+  letter-spacing: 0.02em;
+}
+
+.order-form__submit {
+  align-self: flex-start;
+}
+
+.order-form__error {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  color: #C0392B;
+  margin: 0;
+}
+
+.order-form__confirmation {
+  padding: var(--space-8);
+  background: var(--color-teal-deep);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.order-form__confirmation-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-cream);
+  margin: 0 0 var(--space-3) 0;
+  letter-spacing: 0.04em;
+}
+
+.order-form__confirmation-summary {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: rgba(250, 240, 230, 0.75);
+  margin: 0;
+}
+
+/* ── Section 4: Account settings ──────────────────────────────────── */
+
+.account-settings {
+  background: var(--color-cream);
+  border-top: 1.5px solid rgba(10, 46, 44, 0.12);
+}
+
+.account-settings__heading {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-teal-deep);
+  margin: 0 0 var(--space-8) 0;
+  line-height: var(--leading-tight);
+}
+
+.account-settings__group {
+  border-bottom: 1px solid rgba(10, 46, 44, 0.1);
+  padding-bottom: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.account-settings__group:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.account-settings__row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.account-settings__label {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-teal-deep);
+  min-width: 56px;
+}
+
+.account-settings__value {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-text-body);
+  flex: 1;
+}
+
+.account-settings__toggle {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.account-settings__form {
+  margin-top: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.account-settings__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.account-settings__field-label {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-teal-deep);
+}
+
+.account-settings__submit {
+  align-self: flex-start;
+}
+
+.account-settings__msg {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  margin: 0;
+}
+
+.account-settings__msg--success {
+  color: var(--color-rust);
+}
+
+.account-settings__msg--error {
+  color: #C0392B;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────── */
+
+@media (max-width: 600px) {
+  .stamp-card__inner,
+  .usual-order__inner,
+  .order-form__inner,
+  .account-settings__inner {
+    padding: 2.5rem 1rem;
+  }
+
+  .stamp-card__circle {
+    width: 34px;
+    height: 34px;
+  }
+
+  .account-settings__row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+
+  .account-settings__toggle {
+    margin-left: 0;
+  }
+}

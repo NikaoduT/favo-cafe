@@ -1,0 +1,20 @@
+{
+  "locations": [
+    {
+      "id": 1,
+      "name": "Favo Cafe & Roastery",
+      "address": "7 Duiker St, Reyno Ridge, eMalahleni, 1049",
+      "phone": "+27 13 692 4232",
+      "openingHours": {
+        "mon": { "open": "08:45", "close": "09:00", "cutoffMin": 5 },
+        "tue": { "open": "08:45", "close": "09:00", "cutoffMin": 5 },
+        "wed": { "open": "08:45", "close": "09:00", "cutoffMin": 5 },
+        "thu": { "open": "08:45", "close": "09:00", "cutoffMin": 5 },
+        "fri": { "open": "08:45", "close": "09:00", "cutoffMin": 5 },
+        "sat": { "open": null,    "close": null,    "cutoffMin": 0 },
+        "sun": { "open": "07:50", "close": "09:15", "cutoffMin": 5 }
+      },
+      "specialNote": "Also open during church events — times vary. Follow us for updates."
+    }
+  ]
+}

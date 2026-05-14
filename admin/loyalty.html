@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loyalty Program — Favo Cafe</title>
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="css/admin-tokens.css">
+  <link rel="stylesheet" href="css/admin-layout.css">
+  <link rel="stylesheet" href="css/loyalty.css">
+</head>
+<body class="admin-app">
+
+  <!-- Sidebar -->
+  <nav class="admin-sidebar" aria-label="Admin navigation">
+    <header class="admin-sidebar__header">
+      <span class="admin-sidebar__logo-text">Favo Cafe</span>
+      <span class="admin-sidebar__tagline">Admin</span>
+    </header>
+    <ul class="admin-sidebar__nav" role="list">
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/dashboard.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Dashboard
+        </a>
+      </li>
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/pos.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          Point of Sale
+        </a>
+      </li>
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/inventory.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          Inventory
+        </a>
+      </li>
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/crm.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Customers
+        </a>
+      </li>
+      <li class="admin-sidebar__item admin-sidebar__item--active">
+        <a class="admin-sidebar__link" href="/admin/loyalty.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Loyalty
+        </a>
+      </li>
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/users.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Staff Users
+        </a>
+      </li>
+    </ul>
+    <footer class="admin-sidebar__footer">
+      <button class="admin-sidebar__logout" id="logout-btn" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sign out
+      </button>
+    </footer>
+  </nav>
+
+  <!-- Main content -->
+  <div class="admin-content">
+
+    <header class="admin-topbar">
+      <h1 class="admin-topbar__title">Loyalty Program</h1>
+      <div class="admin-topbar__user" id="topbar-user"></div>
+    </header>
+
+    <main class="admin-main" id="main-content">
+
+      <!-- Stats row -->
+      <section class="admin-stats" aria-label="Loyalty programme metrics">
+        <article class="stat-card">
+          <p class="stat-card__label">Total Members</p>
+          <p class="stat-card__value" id="stat-members-value">—</p>
+        </article>
+        <article class="stat-card">
+          <p class="stat-card__label">Points in Circulation</p>
+          <p class="stat-card__value" id="stat-points-value">—</p>
+        </article>
+        <article class="stat-card">
+          <p class="stat-card__label">Gold+ Members</p>
+          <p class="stat-card__value" id="stat-gold-plus-value">—</p>
+        </article>
+        <article class="stat-card stat-card--alert">
+          <p class="stat-card__label">Points Redeemed</p>
+          <p class="stat-card__value" id="stat-redeemed-value">—</p>
+        </article>
+      </section>
+
+      <!-- Two-column layout -->
+      <div class="loyalty-layout">
+
+        <!-- Left: Members table -->
+        <section class="loyalty-members admin-panel" aria-labelledby="members-heading">
+          <header class="admin-panel__header loyalty-members__header">
+            <h2 class="admin-panel__title" id="members-heading">Members</h2>
+            <div class="loyalty-members__filter" role="group" aria-label="Filter by tier">
+              <button class="loyalty-filter-btn loyalty-filter-btn--active" data-tier="all" type="button">All</button>
+              <button class="loyalty-filter-btn" data-tier="bronze" type="button">Bronze</button>
+              <button class="loyalty-filter-btn" data-tier="silver" type="button">Silver</button>
+              <button class="loyalty-filter-btn" data-tier="gold" type="button">Gold</button>
+              <button class="loyalty-filter-btn" data-tier="platinum" type="button">Platinum</button>
+            </div>
+          </header>
+          <div class="admin-panel__body loyalty-members__body" id="loyalty-members-body">
+            <p class="admin-empty">Loading members…</p>
+          </div>
+        </section>
+
+        <!-- Right: Manual adjustment panel -->
+        <aside class="loyalty-manual-panel" aria-labelledby="manual-heading">
+          <header class="loyalty-manual-panel__header">
+            <h2 class="loyalty-manual-panel__title" id="manual-heading">Manual Adjustment</h2>
+          </header>
+
+          <div class="loyalty-manual-panel__body">
+
+            <!-- Customer search -->
+            <div class="loyalty-search">
+              <label class="loyalty-search__label" for="manual-customer-search">Search customer</label>
+              <input
+                class="loyalty-search__input"
+                id="manual-customer-search"
+                type="search"
+                placeholder="Type name or email…"
+                autocomplete="off"
+                aria-autocomplete="list"
+                aria-controls="manual-customer-results"
+                aria-expanded="false"
+              >
+              <ul
+                class="loyalty-search__results"
+                id="manual-customer-results"
+                role="listbox"
+                aria-label="Matching customers"
+                hidden
+              >
+                <!-- Injected by JS -->
+              </ul>
+            </div>
+
+            <div class="loyalty-manual-panel__selected" id="manual-selected-customer" hidden aria-live="polite">
+              <div class="loyalty-manual-panel__selected-info">
+                <strong class="loyalty-manual-panel__selected-name" id="manual-selected-name"></strong>
+                <span class="loyalty-manual-panel__selected-meta" id="manual-selected-meta"></span>
+              </div>
+              <button class="loyalty-manual-panel__clear" id="manual-clear-customer" type="button" aria-label="Clear customer selection">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+
+            <!-- Earn / Redeem tabs -->
+            <div class="loyalty-manual-panel__tabs" role="tablist" aria-label="Adjustment type">
+              <button
+                class="loyalty-manual-panel__tab loyalty-manual-panel__tab--active"
+                id="tab-earn"
+                role="tab"
+                aria-selected="true"
+                aria-controls="panel-earn"
+                type="button"
+              >Earn Points</button>
+              <button
+                class="loyalty-manual-panel__tab"
+                id="tab-redeem"
+                role="tab"
+                aria-selected="false"
+                aria-controls="panel-redeem"
+                type="button"
+              >Redeem Points</button>
+            </div>
+
+            <!-- Earn panel -->
+            <form
+              class="loyalty-manual-panel__form"
+              id="panel-earn"
+              role="tabpanel"
+              aria-labelledby="tab-earn"
+              novalidate
+            >
+              <fieldset class="loyalty-manual-panel__fieldset">
+                <legend class="loyalty-manual-panel__legend">Earn from Purchase</legend>
+
+                <div class="loyalty-manual-panel__field">
+                  <label class="loyalty-manual-panel__label" for="earn-amount-rands">Purchase amount (R)</label>
+                  <input
+                    class="loyalty-manual-panel__input"
+                    id="earn-amount-rands"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    placeholder="0.00"
+                    aria-describedby="earn-amount-hint"
+                  >
+                  <p class="loyalty-manual-panel__hint" id="earn-amount-hint">1 point per R1 spent</p>
+                </div>
+
+                <div class="loyalty-manual-panel__field">
+                  <label class="loyalty-manual-panel__label" for="earn-order-id">Order ID (optional)</label>
+                  <input
+                    class="loyalty-manual-panel__input"
+                    id="earn-order-id"
+                    type="text"
+                    placeholder="e.g. 1042"
+                    autocomplete="off"
+                  >
+                </div>
+
+              </fieldset>
+
+              <button class="loyalty-manual-panel__submit" id="earn-submit-btn" type="submit" disabled>
+                Award Points
+              </button>
+              <p class="loyalty-manual-panel__feedback" id="earn-feedback" aria-live="polite" role="status"></p>
+            </form>
+
+            <!-- Redeem panel -->
+            <form
+              class="loyalty-manual-panel__form"
+              id="panel-redeem"
+              role="tabpanel"
+              aria-labelledby="tab-redeem"
+              hidden
+              novalidate
+            >
+              <fieldset class="loyalty-manual-panel__fieldset">
+                <legend class="loyalty-manual-panel__legend">Redeem Points</legend>
+
+                <div class="loyalty-manual-panel__field">
+                  <label class="loyalty-manual-panel__label" for="redeem-points">Points to redeem</label>
+                  <input
+                    class="loyalty-manual-panel__input"
+                    id="redeem-points"
+                    type="number"
+                    min="1"
+                    step="1"
+                    placeholder="0"
+                    aria-describedby="redeem-balance-hint"
+                  >
+                  <p class="loyalty-manual-panel__hint" id="redeem-balance-hint">Available balance: —</p>
+                </div>
+
+              </fieldset>
+
+              <button class="loyalty-manual-panel__submit loyalty-manual-panel__submit--redeem" id="redeem-submit-btn" type="submit" disabled>
+                Redeem Points
+              </button>
+              <p class="loyalty-manual-panel__feedback" id="redeem-feedback" aria-live="polite" role="status"></p>
+            </form>
+
+          </div>
+        </aside>
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Member detail modal -->
+  <div class="loyalty-modal-overlay" id="loyalty-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-member-name" hidden>
+    <article class="loyalty-modal">
+
+      <header class="loyalty-modal__header">
+        <div class="loyalty-modal__member-info">
+          <h2 class="loyalty-modal__member-name" id="modal-member-name"></h2>
+          <div class="loyalty-modal__member-meta" id="modal-member-meta"></div>
+        </div>
+        <button class="loyalty-modal__close" id="modal-close-btn" type="button" aria-label="Close member detail">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </header>
+
+      <div class="loyalty-modal__stats">
+        <div class="loyalty-modal__stat">
+          <span class="loyalty-modal__stat-label">Points Balance</span>
+          <span class="loyalty-modal__stat-value" id="modal-points"></span>
+        </div>
+        <div class="loyalty-modal__stat">
+          <span class="loyalty-modal__stat-label">Total Spent</span>
+          <span class="loyalty-modal__stat-value" id="modal-spent"></span>
+        </div>
+        <div class="loyalty-modal__stat">
+          <span class="loyalty-modal__stat-label">Tier</span>
+          <span class="loyalty-modal__stat-value" id="modal-tier-badge"></span>
+        </div>
+      </div>
+
+      <section class="loyalty-modal__history" aria-labelledby="modal-history-heading">
+        <h3 class="loyalty-modal__history-heading" id="modal-history-heading">Event History</h3>
+        <ol class="loyalty-event-list" id="modal-event-list" reversed aria-live="polite">
+          <li class="admin-empty">Loading events…</li>
+        </ol>
+      </section>
+
+    </article>
+  </div>
+
+  <script src="js/admin-auth.js"></script>
+  <script src="js/loyalty.js"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Favo Cafe menu — Americano, Cappuccino, Hot Chocolate, Mocha, Chai Latte. Five drinks, made to order in Reyno Ridge, eMalahleni.">
+  <title>The Menu — Favo Cafe</title>
+
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components/navbar.css">
+  <link rel="stylesheet" href="/css/components/page-hero.css">
+  <link rel="stylesheet" href="/css/components/menu-card.css">
+  <link rel="stylesheet" href="/css/components/footer.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- ── Navigation ─────────────────────────────────────────────────── -->
+  <header class="site-nav" role="banner">
+    <div class="site-nav__container">
+
+      <a class="site-nav__logo" href="/" aria-label="Favo Cafe — home">
+        <img class="site-nav__logo-img" src="/assets/icons/favo-logo.svg" alt="Favo Cafe" height="36">
+      </a>
+
+      <nav class="site-nav__links" id="site-nav-links" aria-label="Main navigation">
+        <a class="site-nav__link" href="/">Home</a>
+        <a class="site-nav__link" href="/menu.html">Menu</a>
+        <a class="site-nav__link" href="/contact.html">Contact</a>
+      </nav>
+
+      <a class="site-nav__rewards" href="/loyalty.html" id="rewards-btn">Rewards</a>
+      <a class="site-nav__login" href="/login.html">Login / Register</a>
+
+      <button
+        class="site-nav__hamburger"
+        aria-label="Open navigation menu"
+        aria-controls="site-nav-links"
+        aria-expanded="false"
+        type="button"
+      >
+        <span class="site-nav__hamburger-bar" aria-hidden="true"></span>
+        <span class="site-nav__hamburger-bar" aria-hidden="true"></span>
+        <span class="site-nav__hamburger-bar" aria-hidden="true"></span>
+      </button>
+
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <section class="page-hero page-hero--menu" aria-labelledby="menu-hero-heading">
+      <div class="page-hero__inner">
+        <span class="page-hero__eyebrow">What we serve</span>
+        <h1 class="page-hero__heading" id="menu-hero-heading">The Menu</h1>
+        <p class="page-hero__subtext">Five drinks. Made to order, every time.</p>
+      </div>
+    </section>
+
+    <section aria-label="Menu items" aria-live="polite">
+      <ul class="menu-grid" id="menu-grid" role="list">
+        <li class="menu-grid__error" aria-live="polite">
+          <p>Loading menu…</p>
+        </li>
+      </ul>
+      <p class="menu-grid__note">All milks included · Extra shot +R10 · One size</p>
+    </section>
+
+  </main>
+
+  <!-- ── Footer ──────────────────────────────────────────────────────── -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="site-footer__inner">
+
+      <div class="site-footer__brand">
+        <a class="site-footer__logo" href="/" aria-label="Favo Cafe home">
+          <img src="/assets/icons/favo-logo.svg" alt="Favo Cafe" height="36">
+        </a>
+        <p class="site-footer__tagline">Good coffee. Good people. Reyno Ridge, eMalahleni.</p>
+      </div>
+
+      <nav class="site-footer__nav-col" aria-label="Site pages">
+        <span class="site-footer__nav-heading">Pages</span>
+        <ul class="site-footer__nav-list">
+          <li><a class="site-footer__link" href="/">Home</a></li>
+          <li><a class="site-footer__link" href="/menu.html">Menu</a></li>
+          <li><a class="site-footer__link" href="/loyalty.html">Rewards</a></li>
+          <li><a class="site-footer__link" href="/contact.html">Contact</a></li>
+          <li><a class="site-footer__link" href="/order.html">Order Ahead</a></li>
+        </ul>
+      </nav>
+
+      <address class="site-footer__contact">
+        <span class="site-footer__contact-heading">Find us</span>
+        <p>7 Duiker St, Reyno Ridge</p>
+        <p>eMalahleni, 1049</p>
+        <a href="tel:+27136924232">+27 13 692 4232</a>
+      </address>
+
+    </div>
+
+    <div class="site-footer__bottom">
+      <p class="site-footer__copy">&copy; 2026 Favo Cafe. All rights reserved.</p>
+      <a class="site-footer__admin-link" href="/login.html">Staff login</a>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+  <script src="/js/menu.js"></script>
+</body>
+</html>

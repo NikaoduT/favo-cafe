@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Point of Sale — Favo Cafe</title>
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="css/admin-tokens.css">
+  <link rel="stylesheet" href="css/admin-layout.css">
+  <link rel="stylesheet" href="css/pos.css">
+</head>
+<body class="admin-app">
+
+  <!-- Sidebar -->
+  <nav class="admin-sidebar" aria-label="Admin navigation">
+    <header class="admin-sidebar__header">
+      <span class="admin-sidebar__logo-text">Favo Cafe</span>
+      <span class="admin-sidebar__tagline">Admin</span>
+    </header>
+    <ul class="admin-sidebar__nav" role="list">
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/dashboard.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Dashboard
+        </a>
+      </li>
+      <li class="admin-sidebar__item admin-sidebar__item--active">
+        <a class="admin-sidebar__link" href="/admin/pos.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          Point of Sale
+        </a>
+      </li>
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/inventory.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          Inventory
+        </a>
+      </li>
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/crm.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Customers
+        </a>
+      </li>
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/loyalty.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Loyalty
+        </a>
+      </li>
+      <li class="admin-sidebar__item">
+        <a class="admin-sidebar__link" href="/admin/users.html">
+          <svg class="admin-sidebar__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Staff Users
+        </a>
+      </li>
+    </ul>
+    <footer class="admin-sidebar__footer">
+      <button class="admin-sidebar__logout" id="logout-btn" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sign out
+      </button>
+    </footer>
+  </nav>
+
+  <!-- Main content -->
+  <div class="admin-content">
+
+    <header class="admin-topbar">
+      <h1 class="admin-topbar__title">Point of Sale</h1>
+      <div class="admin-topbar__user" id="topbar-user"></div>
+    </header>
+
+    <main class="admin-main" id="main-content">
+
+      <div class="pos-layout">
+
+        <!-- LEFT: Menu items -->
+        <section class="pos-menu" aria-label="Menu items">
+
+          <div class="pos-menu__tabs" id="pos-tabs" role="tablist" aria-label="Menu categories">
+            <!-- Tabs injected by JS -->
+          </div>
+
+          <div class="pos-menu__grid" id="pos-menu-grid" role="list" aria-label="Menu items">
+            <p class="admin-empty">Loading menu…</p>
+          </div>
+
+        </section>
+
+        <!-- RIGHT: Order sidebar -->
+        <aside class="pos-cart" aria-label="Current order">
+
+          <header class="pos-cart__header">
+            <h2 class="pos-cart__title">Current Order</h2>
+            <p class="pos-cart__count" id="pos-cart-count">Empty order</p>
+          </header>
+
+          <!-- Cart items -->
+          <div class="pos-cart__items" id="pos-cart-items" aria-live="polite">
+            <div class="pos-cart__empty">
+              <svg class="pos-cart__empty-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+              <p>Add items from the menu</p>
+            </div>
+          </div>
+
+          <!-- Cart footer -->
+          <div class="pos-cart__footer">
+
+            <!-- Walk-in toggle -->
+            <div class="pos-walk-in">
+              <label class="pos-walk-in__label" for="pos-walkin-toggle">Walk-in (no account)</label>
+              <div class="pos-walk-in__toggle-wrap">
+                <input
+                  class="pos-walk-in__checkbox"
+                  id="pos-walkin-toggle"
+                  type="checkbox"
+                  role="switch"
+                  aria-checked="false"
+                >
+                <span class="pos-walk-in__track" aria-hidden="true"></span>
+              </div>
+            </div>
+
+            <!-- Customer lookup (hidden when walk-in is on) -->
+            <div class="pos-customer" id="pos-customer-section">
+              <span class="pos-customer__label">Customer</span>
+
+              <div class="pos-customer__search-wrap" id="pos-customer-search-wrap">
+                <input
+                  class="pos-customer__search"
+                  id="pos-customer-search"
+                  type="search"
+                  placeholder="Search by name or phone…"
+                  autocomplete="off"
+                  aria-label="Search for a customer"
+                >
+                <div
+                  class="pos-customer__dropdown"
+                  id="pos-customer-dropdown"
+                  role="listbox"
+                  aria-label="Customer suggestions"
+                ></div>
+                <button class="pos-customer__new-btn" id="pos-new-customer-btn" type="button">
+                  New customer
+                </button>
+              </div>
+
+              <div
+                class="pos-customer__selected"
+                id="pos-customer-selected"
+                style="display:none"
+                aria-live="polite"
+              >
+                <div class="pos-customer__selected-info">
+                  <span class="pos-customer__selected-name"></span>
+                  <span class="pos-customer__selected-stamps"></span>
+                  <span class="pos-stamp-badge" id="pos-stamp-badge" style="display:none"></span>
+                  <span class="pos-free-badge" id="pos-free-badge" style="display:none">Free coffee ready!</span>
+                </div>
+                <button class="pos-customer__clear" id="pos-customer-clear" type="button" aria-label="Remove customer">×</button>
+              </div>
+            </div>
+
+            <!-- Payment method -->
+            <div class="pos-payment">
+              <span class="pos-payment__label">Payment Method</span>
+              <div class="pos-payment__options" role="group" aria-label="Payment method">
+                <button class="pos-payment__option" data-method="cash" type="button">Cash</button>
+                <button class="pos-payment__option" data-method="card" type="button">Card</button>
+                <button class="pos-payment__option" data-method="free_coffee" type="button" disabled title="Customer needs 9 stamps first">Free Coffee</button>
+              </div>
+            </div>
+
+            <!-- Totals -->
+            <div class="pos-totals" aria-label="Order totals">
+              <div class="pos-totals__row">
+                <span>Subtotal</span>
+                <span id="pos-subtotal">R 0.00</span>
+              </div>
+              <div class="pos-totals__row" id="pos-discount-row" style="display:none">
+                <span>Discount</span>
+                <span class="pos-totals__discount" id="pos-discount"></span>
+              </div>
+              <div class="pos-totals__row pos-totals__row--total">
+                <span>Total</span>
+                <span id="pos-total">R 0.00</span>
+              </div>
+            </div>
+
+            <!-- Charge button -->
+            <button class="pos-charge-btn" id="pos-charge-btn" type="button" disabled>
+              Add items to charge
+            </button>
+
+          </div>
+        </aside>
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Modifier bottom sheet -->
+  <div
+    class="pos-modifier-overlay"
+    id="pos-modifier-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="pos-modifier-title"
+  >
+    <div class="pos-modifier-sheet">
+      <header class="pos-modifier-sheet__header">
+        <h2 class="pos-modifier-sheet__title" id="pos-modifier-title">Customise</h2>
+        <button class="pos-modifier-sheet__close" id="pos-modifier-close" type="button" aria-label="Cancel">✕</button>
+      </header>
+      <div class="pos-modifier-sheet__body" id="pos-modifier-body">
+        <!-- Injected by JS -->
+      </div>
+      <footer class="pos-modifier-sheet__footer">
+        <button class="pos-modifier-sheet__add" id="pos-modifier-add" type="button">Add to Order</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Receipt modal -->
+  <div
+    class="pos-receipt-overlay"
+    id="pos-receipt-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="pos-receipt-title"
+  >
+    <div class="pos-receipt">
+      <div id="pos-receipt-body">
+        <!-- Injected by JS -->
+      </div>
+      <button class="pos-receipt__btn" id="pos-receipt-close" type="button">
+        New Order
+      </button>
+    </div>
+  </div>
+
+  <!-- New customer modal -->
+  <div
+    class="pos-modal-overlay"
+    id="pos-new-customer-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="pos-new-customer-title"
+  >
+    <div class="pos-modal">
+      <header class="pos-modal__header">
+        <h2 class="pos-modal__title" id="pos-new-customer-title">Add New Customer</h2>
+      </header>
+      <form class="pos-modal__form" id="pos-new-customer-form" novalidate>
+        <fieldset class="pos-modal__fieldset">
+          <div class="pos-modal__field">
+            <label class="pos-modal__label" for="nc-first-name">First name</label>
+            <input
+              class="pos-modal__input"
+              id="nc-first-name"
+              name="first_name"
+              type="text"
+              autocomplete="given-name"
+              required
+            >
+          </div>
+          <div class="pos-modal__field">
+            <label class="pos-modal__label" for="nc-last-name">Last name</label>
+            <input
+              class="pos-modal__input"
+              id="nc-last-name"
+              name="last_name"
+              type="text"
+              autocomplete="family-name"
+              required
+            >
+          </div>
+          <div class="pos-modal__field">
+            <label class="pos-modal__label" for="nc-email">Email (optional)</label>
+            <input
+              class="pos-modal__input"
+              id="nc-email"
+              name="email"
+              type="email"
+              autocomplete="email"
+            >
+          </div>
+          <div class="pos-modal__field">
+            <label class="pos-modal__label" for="nc-phone">Phone (optional)</label>
+            <input
+              class="pos-modal__input"
+              id="nc-phone"
+              name="phone"
+              type="tel"
+              autocomplete="tel"
+            >
+          </div>
+        </fieldset>
+        <p class="pos-modal__error" id="pos-new-customer-error" role="alert"></p>
+        <div class="pos-modal__actions">
+          <button class="pos-modal__btn pos-modal__btn--cancel" id="pos-new-customer-cancel" type="button">Cancel</button>
+          <button class="pos-modal__btn pos-modal__btn--submit" type="submit">Add Customer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/admin-auth.js"></script>
+  <script src="js/pos.js"></script>
+</body>
+</html>

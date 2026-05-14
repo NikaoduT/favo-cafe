@@ -1,0 +1,38 @@
+[build]
+  publish   = "public"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Route all /api/* calls through the serverless function
+[[redirects]]
+  from   = "/api/*"
+  to     = "/.netlify/functions/api/:splat"
+  status = 200
+
+# Route /admin/* through the function so Express can serve the static admin files
+[[redirects]]
+  from   = "/admin"
+  to     = "/.netlify/functions/api/admin"
+  status = 200
+
+[[redirects]]
+  from   = "/admin/*"
+  to     = "/.netlify/functions/api/admin/:splat"
+  status = 200
+
+# Portal page
+[[redirects]]
+  from   = "/portal.html"
+  to     = "/portal.html"
+  status = 200
+
+# Login page
+[[redirects]]
+  from   = "/login.html"
+  to     = "/login.html"
+  status = 200
+
+[context.production.environment]
+  NODE_ENV = "production"

@@ -1,0 +1,31 @@
+{
+  "modifierGroups": [
+    {
+      "id": 1,
+      "name": "Milk",
+      "selectionType": "single",
+      "required": true,
+      "displayOrder": 1,
+      "modifiers": [
+        { "id": 1, "name": "Full Cream", "priceDeltaCents": 0, "isDefault": true,  "displayOrder": 1 },
+        { "id": 2, "name": "Oat Milk",   "priceDeltaCents": 0, "isDefault": false, "displayOrder": 2 },
+        { "id": 3, "name": "Almond Milk","priceDeltaCents": 0, "isDefault": false, "displayOrder": 3 }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Extras",
+      "selectionType": "multiple",
+      "required": false,
+      "displayOrder": 2,
+      "modifiers": [
+        { "id": 4, "name": "Extra Shot", "priceDeltaCents": 1000, "isDefault": false, "displayOrder": 1 }
+      ]
+    }
+  ],
+  "_notes": {
+    "milkPricing": "No extra charge for any milk option",
+    "extraShot": "R10 per additional shot",
+    "sizing": "One size only — no size selector"
+  }
+}

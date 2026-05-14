@@ -1,0 +1,171 @@
+/* navbar.css — Favo Cafe
+   BEM block: .site-nav
+   ──────────────────────────────────── */
+
+.site-nav {
+  background: var(--color-teal-deep);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav, 100);
+  height: var(--topbar-height, 64px);
+  border-bottom: 1px solid var(--color-border-dark);
+}
+
+.site-nav__container {
+  display: flex;
+  align-items: center;
+  max-width: var(--container-max, 1200px);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+  height: 100%;
+  gap: var(--space-6);
+}
+
+/* ── Logo ──────────────────────────────────────────────────── */
+.site-nav__logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.site-nav__logo-img {
+  height: 36px;
+  width: auto;
+  display: block;
+}
+
+/* ── Nav links (hamburger-controlled on mobile) ────────────── */
+.site-nav__links {
+  display: flex;
+  gap: var(--space-8);
+  margin-left: auto;
+  list-style: none;
+  align-items: center;
+}
+
+.site-nav__link {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(250, 240, 230, 0.75);
+  text-decoration: none;
+  transition: color var(--transition-fast, 0.15s);
+  padding-bottom: 2px;
+  white-space: nowrap;
+}
+.site-nav__link:hover {
+  color: var(--color-cream);
+}
+
+.site-nav__link--active {
+  color: var(--color-rust);
+  border-bottom: 1.5px solid var(--color-rust);
+}
+
+/* ── Always-visible Rewards button ────────────────────────── */
+.site-nav__rewards {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--color-rust);
+  color: var(--color-cream);
+  text-decoration: none;
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast, 0.15s);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.site-nav__rewards:hover {
+  background: var(--color-rust-deep);
+}
+
+/* ── Always-visible Login ghost button ─────────────────────── */
+.site-nav__login {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--color-cream);
+  text-decoration: none;
+  padding: var(--space-2) var(--space-5);
+  border: 1.5px solid rgba(250, 240, 230, 0.55);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast, 0.15s), color var(--transition-fast, 0.15s), border-color var(--transition-fast, 0.15s);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.site-nav__login:hover {
+  background: var(--color-cream);
+  color: var(--color-teal-deep);
+  border-color: var(--color-cream);
+}
+
+/* ── Hamburger ─────────────────────────────────────────────── */
+.site-nav__hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-2);
+  flex-shrink: 0;
+}
+
+.site-nav__hamburger-bar {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--color-cream);
+  transition: all var(--transition-fast, 0.15s);
+}
+
+/* ── Mobile ────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .site-nav__container {
+    gap: var(--space-3);
+  }
+
+  .site-nav__hamburger {
+    display: flex;
+  }
+
+  .site-nav__links {
+    position: absolute;
+    top: var(--topbar-height, 64px);
+    left: 0;
+    right: 0;
+    background: var(--color-teal-deep);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--space-6);
+    gap: var(--space-4);
+    border-top: 1px solid var(--color-border-dark);
+    display: none;
+    margin-left: 0;
+    z-index: var(--z-nav, 100);
+  }
+
+  .site-nav__links--open {
+    display: flex;
+  }
+
+  .site-nav__link {
+    font-size: 13px;
+    padding: var(--space-2) 0;
+  }
+
+  .site-nav__rewards,
+  .site-nav__login {
+    padding: var(--space-2) var(--space-3);
+    font-size: 0.7rem;
+  }
+}

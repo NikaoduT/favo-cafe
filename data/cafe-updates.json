@@ -1,0 +1,22 @@
+{
+  "updates": [
+    {
+      "id": "untracked-may",
+      "title": "Catch us at Untracked Church",
+      "body": "Favo is on-site every month at the Untracked Church service. Stamp earnings still apply.",
+      "linkLabel": "Service info",
+      "linkUrl": "https://hofmi.net/untracked/",
+      "tag": "Event",
+      "active": true
+    },
+    {
+      "id": "winter-mocha",
+      "title": "Try our winter mocha",
+      "body": "Made with single-origin chocolate. Available throughout the season.",
+      "linkLabel": "View the menu",
+      "linkUrl": "/menu.html",
+      "tag": "New",
+      "active": true
+    }
+  ]
+}

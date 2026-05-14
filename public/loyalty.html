@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Join the Favo Rewards programme. Earn stamps, unlock free drinks, and track your visits.">
+  <title>Loyalty Rewards — Favo Cafe &amp; Roastery</title>
+
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components/navbar.css">
+  <link rel="stylesheet" href="/css/components/page-hero.css">
+  <link rel="stylesheet" href="/css/components/footer.css">
+
+  <style>
+    /* ── Loyalty page (BEM: loyalty-) ──────────────────────────────── */
+
+    /* How it works */
+    .loyalty-how {
+      padding: var(--space-24) 0;
+      background: var(--color-bg-page);
+    }
+    .loyalty-how__inner {
+      max-width: var(--container-max, 1200px);
+      margin: 0 auto;
+      padding: 0 var(--space-6);
+      text-align: center;
+    }
+    .loyalty-how__eyebrow {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-rust);
+      margin-bottom: var(--space-3);
+    }
+    .loyalty-how__heading {
+      font-family: var(--font-display);
+      font-size: var(--text-3xl);
+      font-weight: 700;
+      color: var(--color-ink);
+      letter-spacing: 0.04em;
+      margin-bottom: var(--space-16);
+    }
+    .loyalty-how__steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-8);
+      list-style: none;
+    }
+    .loyalty-step {
+      background: var(--color-bg-section);
+      border: 1px solid var(--color-border);
+      padding: var(--space-8);
+    }
+    .loyalty-step__num {
+      width: 48px;
+      height: 48px;
+      background: var(--color-rust);
+      color: var(--color-cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 700;
+      margin: 0 auto var(--space-5);
+    }
+    .loyalty-step__title {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 700;
+      color: var(--color-ink);
+      letter-spacing: 0.04em;
+      margin-bottom: var(--space-3);
+    }
+    .loyalty-step__body {
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      color: var(--color-text-muted);
+      line-height: var(--leading-loose);
+    }
+
+    /* ── Portal section (auth-gated) ─────────────────────────────────── */
+    .loyalty-portal {
+      padding: var(--space-24) 0;
+      background: var(--color-bg-section);
+    }
+    .loyalty-portal__inner {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 var(--space-6);
+    }
+
+    /* CTA card (not logged in) */
+    .loyalty-portal-cta {
+      background: var(--color-teal-deep);
+      border: 1px solid var(--color-border-dark);
+      padding: var(--space-12) var(--space-10);
+      text-align: center;
+    }
+    .loyalty-portal-cta__icon {
+      font-size: 2.5rem;
+      margin-bottom: var(--space-4);
+    }
+    .loyalty-portal-cta__heading {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      color: var(--color-cream);
+      letter-spacing: 0.04em;
+      margin-bottom: var(--space-3);
+    }
+    .loyalty-portal-cta__body {
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      color: rgba(250,240,230,0.65);
+      line-height: var(--leading-loose);
+      max-width: 480px;
+      margin: 0 auto var(--space-8);
+    }
+    .loyalty-portal-cta__btn {
+      display: inline-block;
+      padding: var(--space-4) var(--space-8);
+      background: var(--color-rust);
+      color: var(--color-cream);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: var(--tracking-wider);
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background var(--transition-fast, 0.15s);
+    }
+    .loyalty-portal-cta__btn:hover { background: var(--color-rust-deep); }
+
+    /* Auth card (sign-up / login tabs) */
+    .loyalty-auth {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      overflow: hidden;
+    }
+    .loyalty-auth__tabs {
+      display: flex;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .loyalty-auth__tab {
+      flex: 1;
+      padding: var(--space-4) var(--space-6);
+      background: none;
+      border: none;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: var(--tracking-wider);
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color var(--transition-fast, 0.15s), border-color var(--transition-fast, 0.15s);
+    }
+    .loyalty-auth__tab--active {
+      color: var(--color-rust);
+      border-bottom-color: var(--color-rust);
+    }
+    .loyalty-auth__panel { padding: var(--space-8); }
+    .loyalty-auth__panel--hidden { display: none; }
+
+    .loyalty-form__group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      margin-bottom: var(--space-5);
+    }
+    .loyalty-form__row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+    .loyalty-form__label {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: var(--tracking-wider);
+      text-transform: uppercase;
+      color: var(--color-text-primary);
+    }
+    .loyalty-form__label--optional::after {
+      content: ' (optional)';
+      font-weight: var(--weight-regular);
+      color: var(--color-text-muted);
+      text-transform: none;
+      letter-spacing: 0;
+    }
+    .loyalty-form__input,
+    .loyalty-form__select {
+      padding: var(--space-3) var(--space-4);
+      border: 1px solid var(--color-border);
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      color: var(--color-text-primary);
+      background: var(--color-bg-page);
+      outline: none;
+      width: 100%;
+      border-radius: 0;
+      transition: border-color var(--transition-fast, 0.15s), box-shadow var(--transition-fast, 0.15s);
+    }
+    .loyalty-form__input:focus,
+    .loyalty-form__select:focus {
+      border-color: var(--color-rust);
+      box-shadow: 0 0 0 3px rgba(224,112,64,0.10);
+    }
+    .loyalty-form__input::placeholder { color: var(--color-text-muted); }
+    .loyalty-form__select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237A5C42' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+    }
+    .loyalty-form__checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+    .loyalty-form__checkbox {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      accent-color: var(--color-rust);
+      margin-top: 2px;
+    }
+    .loyalty-form__checkbox-label {
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      color: var(--color-text-body);
+      line-height: var(--leading-normal);
+    }
+    .loyalty-form__btn {
+      width: 100%;
+      padding: var(--space-4);
+      background: var(--color-rust);
+      color: var(--color-cream);
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: var(--tracking-wider);
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background var(--transition-fast, 0.15s);
+    }
+    .loyalty-form__btn:hover:not(:disabled) { background: var(--color-rust-deep); }
+    .loyalty-form__btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .loyalty-form__error {
+      display: none;
+      padding: var(--space-3) var(--space-4);
+      background: rgba(192,57,43,0.08);
+      border: 1px solid rgba(192,57,43,0.25);
+      color: #C0392B;
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      margin-top: var(--space-4);
+    }
+
+    /* ── Stamp card widget ───────────────────────────────────────────── */
+    .loyalty-dashboard { display: none; }
+    .loyalty-dashboard--visible { display: block; }
+
+    .loyalty-card {
+      background: var(--color-teal-deep);
+      border: 1px solid var(--color-border-dark);
+      padding: var(--space-8);
+      margin-bottom: var(--space-6);
+      color: var(--color-cream);
+    }
+    .loyalty-card__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: var(--space-6);
+    }
+    .loyalty-card__greeting {
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      color: rgba(250,240,230,0.60);
+      margin-bottom: var(--space-1);
+    }
+    .loyalty-card__name {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      color: var(--color-cream);
+      letter-spacing: 0.04em;
+    }
+    .loyalty-card__tier {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-1) var(--space-3);
+      background: rgba(212,168,67,0.15);
+      border: 1px solid rgba(212,168,67,0.35);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: var(--tracking-wider);
+      text-transform: uppercase;
+      color: var(--color-gold);
+    }
+    .loyalty-card__stamps-label {
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: var(--tracking-widest);
+      text-transform: uppercase;
+      color: rgba(250,240,230,0.50);
+      margin-bottom: var(--space-4);
+    }
+    .loyalty-card__stamps {
+      display: grid;
+      grid-template-columns: repeat(9, 1fr);
+      gap: var(--space-2);
+      margin-bottom: var(--space-4);
+    }
+    .loyalty-stamp {
+      aspect-ratio: 1;
+      border: 2px solid rgba(212,168,67,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      transition: all var(--transition-base, 0.2s);
+    }
+    .loyalty-stamp--earned {
+      background: var(--color-gold);
+      border-color: var(--color-gold);
+    }
+    .loyalty-stamp--empty { background: rgba(250,240,230,0.04); }
+    .loyalty-card__progress-text {
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      color: rgba(250,240,230,0.60);
+    }
+    .loyalty-card__progress-text strong {
+      color: var(--color-gold);
+    }
+
+    /* Reward banner */
+    .loyalty-reward {
+      background: linear-gradient(135deg, var(--color-rust) 0%, var(--color-gold) 100%);
+      padding: var(--space-5) var(--space-6);
+      margin-bottom: var(--space-6);
+      display: none;
+      align-items: center;
+      gap: var(--space-4);
+    }
+    .loyalty-reward--visible { display: flex; }
+    .loyalty-reward__icon { font-size: 2rem; flex-shrink: 0; }
+    .loyalty-reward__text { flex: 1; }
+    .loyalty-reward__title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--color-cream);
+      letter-spacing: 0.04em;
+      margin-bottom: 2px;
+    }
+    .loyalty-reward__sub {
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      color: rgba(250,240,230,0.80);
+    }
+
+    /* Visit history */
+    .loyalty-history {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      overflow: hidden;
+    }
+    .loyalty-history__heading {
+      padding: var(--space-5) var(--space-6);
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: var(--tracking-wider);
+      text-transform: uppercase;
+      color: var(--color-rust);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .loyalty-history__list { list-style: none; }
+    .loyalty-history__item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-4) var(--space-6);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .loyalty-history__item:last-child { border-bottom: none; }
+    .loyalty-history__date {
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: var(--tracking-wider);
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-1);
+    }
+    .loyalty-history__items-list {
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      color: var(--color-text-body);
+    }
+    .loyalty-history__amount {
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: 700;
+      color: var(--color-ink);
+      white-space: nowrap;
+    }
+    .loyalty-history__empty {
+      padding: var(--space-10) var(--space-6);
+      text-align: center;
+      font-family: var(--font-body);
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
+    }
+    .loyalty-signout {
+      margin-top: var(--space-6);
+      text-align: center;
+    }
+    .loyalty-signout__btn {
+      background: none;
+      border: 1px solid var(--color-border);
+      padding: var(--space-2) var(--space-5);
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: var(--tracking-wider);
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: background var(--transition-fast, 0.15s), color var(--transition-fast, 0.15s);
+      border-radius: 0;
+    }
+    .loyalty-signout__btn:hover {
+      background: var(--color-bg-section);
+      color: var(--color-text-primary);
+    }
+
+    @media (max-width: 768px) {
+      .loyalty-how__steps { grid-template-columns: 1fr; }
+      .loyalty-form__row { grid-template-columns: 1fr; }
+      .loyalty-card__stamps { grid-template-columns: repeat(9, 1fr); gap: var(--space-1); }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-nav" role="banner">
+    <div class="site-nav__container">
+      <a class="site-nav__logo" href="/" aria-label="Favo Cafe — home">
+        <img class="site-nav__logo-img" src="/assets/icons/favo-logo.svg" alt="Favo Cafe" height="36">
+      </a>
+      <nav class="site-nav__links" id="site-nav-links" aria-label="Main navigation">
+        <a class="site-nav__link" href="/">Home</a>
+        <a class="site-nav__link" href="/menu.html">Menu</a>
+        <a class="site-nav__link" href="/contact.html">Contact</a>
+      </nav>
+      <a class="site-nav__rewards site-nav__rewards--active" href="/loyalty.html" id="rewards-btn">Rewards</a>
+      <a class="site-nav__login" href="/login.html">Login / Register</a>
+      <button class="site-nav__hamburger" aria-label="Open navigation menu" aria-controls="site-nav-links" aria-expanded="false" type="button">
+        <span class="site-nav__hamburger-bar" aria-hidden="true"></span>
+        <span class="site-nav__hamburger-bar" aria-hidden="true"></span>
+        <span class="site-nav__hamburger-bar" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <section class="page-hero page-hero--loyalty" aria-labelledby="loyalty-hero-heading">
+      <div class="page-hero__inner">
+        <span class="page-hero__eyebrow">Favo Rewards</span>
+        <h1 class="page-hero__heading" id="loyalty-hero-heading">Earn rewards.</h1>
+        <p class="page-hero__subtext">Every cup earns you a stamp. Nine stamps and your tenth is on us.</p>
+      </div>
+    </section>
+
+    <section class="loyalty-how" aria-labelledby="how-heading">
+      <div class="loyalty-how__inner">
+        <span class="loyalty-how__eyebrow">How it works</span>
+        <h2 class="loyalty-how__heading" id="how-heading">Simple by design.</h2>
+        <ol class="loyalty-how__steps" role="list">
+          <li class="loyalty-step">
+            <div class="loyalty-step__num" aria-hidden="true">1</div>
+            <h3 class="loyalty-step__title">Sign up below</h3>
+            <p class="loyalty-step__body">Create your account in under a minute. All you need is your name and phone number.</p>
+          </li>
+          <li class="loyalty-step">
+            <div class="loyalty-step__num" aria-hidden="true">2</div>
+            <h3 class="loyalty-step__title">Give your number at the till</h3>
+            <p class="loyalty-step__body">Tell the barista your last 4 digits. We find you, add a stamp, done. No card, no app needed.</p>
+          </li>
+          <li class="loyalty-step">
+            <div class="loyalty-step__num" aria-hidden="true">3</div>
+            <h3 class="loyalty-step__title">9 stamps = free coffee</h3>
+            <p class="loyalty-step__body">Your 10th drink is on us — we'll match the lowest-priced item in your order, up to R45.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="loyalty-portal" aria-labelledby="portal-heading" id="portal">
+      <div class="loyalty-portal__inner">
+        <h2 class="sr-only" id="portal-heading">Loyalty account portal</h2>
+
+        <!-- CTA card (shown when not logged in) -->
+        <div class="loyalty-portal-cta" id="loyalty-cta" aria-label="Sign in or create account">
+          <div class="loyalty-portal-cta__icon" aria-hidden="true">&#9749;</div>
+          <h3 class="loyalty-portal-cta__heading">Track your stamps</h3>
+          <p class="loyalty-portal-cta__body">Sign in or create your free account to check your stamp progress, view your visit history, and redeem rewards.</p>
+          <a class="loyalty-portal-cta__btn" href="/login.html">Sign in / Join Rewards</a>
+        </div>
+
+        <!-- Dashboard (shown when logged in) -->
+        <div class="loyalty-dashboard" id="loyalty-dashboard" aria-label="Your loyalty account" aria-live="polite">
+
+          <!-- Stamp card -->
+          <div class="loyalty-card" aria-label="Your stamp card">
+            <div class="loyalty-card__header">
+              <div>
+                <p class="loyalty-card__greeting">Welcome back,</p>
+                <p class="loyalty-card__name" id="dashboard-name">—</p>
+              </div>
+              <span class="loyalty-card__tier" id="dashboard-tier">Bronze</span>
+            </div>
+
+            <p class="loyalty-card__stamps-label">Your stamps</p>
+            <div class="loyalty-card__stamps" id="stamp-grid" role="img" aria-label="Stamp progress"></div>
+            <p class="loyalty-card__progress-text" id="stamp-progress-text"></p>
+          </div>
+
+          <!-- Reward banner (shown only when free drink is available) -->
+          <div class="loyalty-reward" id="reward-banner" aria-live="polite">
+            <span class="loyalty-reward__icon" aria-hidden="true">&#127881;</span>
+            <div class="loyalty-reward__text">
+              <p class="loyalty-reward__title">You have a free drink waiting!</p>
+              <p class="loyalty-reward__sub">Show this to the barista at your next visit to redeem it — up to R45 off any item.</p>
+            </div>
+          </div>
+
+          <!-- Visit history -->
+          <section class="loyalty-history" aria-labelledby="history-heading">
+            <h3 class="loyalty-history__heading" id="history-heading">Recent visits</h3>
+            <ul class="loyalty-history__list" id="history-list" aria-label="Your visit history"></ul>
+          </section>
+
+          <div class="loyalty-signout">
+            <button class="loyalty-signout__btn" id="signout-btn" type="button">Sign out</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="site-footer__inner">
+      <div class="site-footer__brand">
+        <a class="site-footer__logo" href="/" aria-label="Favo Cafe &amp; Roastery home">
+          <svg class="site-footer__logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="36" height="36" fill="#E07040"/>
+            <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-family="Josefin Sans, sans-serif" font-weight="700" font-size="20" letter-spacing="0.05em" fill="#FAF0E6">F</text>
+          </svg>
+          <span class="site-footer__name">Favo Cafe</span>
+        </a>
+        <p class="site-footer__tagline">Specialty coffee, roasted and served with intention. Reyno Ridge, eMalahleni.</p>
+      </div>
+      <nav class="site-footer__nav-col" aria-label="Site pages">
+        <span class="site-footer__nav-heading">Pages</span>
+        <ul class="site-footer__nav-list">
+          <li><a class="site-footer__link" href="/">Home</a></li>
+          <li><a class="site-footer__link" href="/menu.html">Menu</a></li>
+          <li><a class="site-footer__link" href="/loyalty.html">Loyalty</a></li>
+          <li><a class="site-footer__link" href="/contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <address class="site-footer__contact">
+        <span class="site-footer__contact-heading">Find us</span>
+        <p>7 Duiker St, Reyno Ridge</p>
+        <p>eMalahleni, 1049</p>
+        <a href="tel:+27136924232">+27 13 692 4232</a>
+        <a href="mailto:hello@favocafe.co.za">hello@favocafe.co.za</a>
+      </address>
+    </div>
+    <div class="site-footer__bottom">
+      <p class="site-footer__copy">&copy; 2026 Favo Cafe &amp; Roastery. All rights reserved.</p>
+      <a class="site-footer__admin-link" href="/admin/login.html">Staff login</a>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+  <script src="/js/loyalty-portal.js"></script>
+  <script>
+    // Hide CTA and show dashboard if a customer token is already stored
+    (() => {
+      const token = localStorage.getItem('favo_customer_token');
+      if (token) {
+        document.getElementById('loyalty-cta')?.style?.setProperty('display', 'none');
+      }
+    })();
+  </script>
+</body>
+</html>

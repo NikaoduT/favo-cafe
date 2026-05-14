@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Favo Cafe — Good coffee. Good people. A small cafe in Reyno Ridge, eMalahleni. Short menu, short window, same team every morning.">
+  <title>Favo Cafe — Reyno Ridge, eMalahleni</title>
+
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/components/navbar.css">
+  <link rel="stylesheet" href="/css/components/hero.css">
+  <link rel="stylesheet" href="/css/components/menu-card.css">
+  <link rel="stylesheet" href="/css/components/footer.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- ── Navigation ─────────────────────────────────────────────────── -->
+  <header class="site-nav" role="banner">
+    <div class="site-nav__container">
+
+      <a class="site-nav__logo" href="/" aria-label="Favo Cafe — home">
+        <img class="site-nav__logo-img" src="/assets/icons/favo-logo.svg" alt="Favo Cafe" height="36">
+      </a>
+
+      <nav class="site-nav__links" id="site-nav-links" aria-label="Main navigation">
+        <a class="site-nav__link" href="/">Home</a>
+        <a class="site-nav__link" href="/menu.html">Menu</a>
+        <a class="site-nav__link" href="/contact.html">Contact</a>
+      </nav>
+
+      <a class="site-nav__rewards" href="/loyalty.html" id="rewards-btn">Rewards</a>
+      <a class="site-nav__login" href="/login.html">Login / Register</a>
+
+      <button
+        class="site-nav__hamburger"
+        aria-label="Open navigation menu"
+        aria-controls="site-nav-links"
+        aria-expanded="false"
+        type="button"
+      >
+        <span class="site-nav__hamburger-bar" aria-hidden="true"></span>
+        <span class="site-nav__hamburger-bar" aria-hidden="true"></span>
+        <span class="site-nav__hamburger-bar" aria-hidden="true"></span>
+      </button>
+
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- Fold 1 — Hero (teal-deep) ───────────────────────────────────── -->
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero__inner">
+        <div class="hero__content">
+          <span class="hero__eyebrow">Reyno Ridge · eMalahleni</span>
+          <h1 class="hero__heading" id="hero-heading">Deep brew. <em>Real craft</em></h1>
+          <p class="hero__tagline">Good coffee. Good people.</p>
+          <p class="hero__subtext">
+            A short menu, a tight window, and the same small team every morning. iXchangers making the coffee.
+          </p>
+          <nav class="hero__actions" aria-label="Hero calls to action">
+            <a class="hero__btn hero__btn--primary" href="/order.html">Order ahead</a>
+            <a class="hero__btn hero__btn--secondary" href="/menu.html">See the menu</a>
+          </nav>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fold 2 — Featured menu (plum) ───────────────────────────────── -->
+    <section class="featured-menu" aria-labelledby="featured-heading">
+      <div class="featured-menu__container">
+
+        <header class="featured-menu__header">
+          <span class="featured-menu__eyebrow">On the menu</span>
+          <h2 class="featured-menu__heading" id="featured-heading">Your favourites</h2>
+        </header>
+
+        <ul class="featured-menu__grid" id="featured-grid" role="list">
+          <li class="featured-menu__loading" aria-live="polite">Loading menu…</li>
+        </ul>
+
+        <p class="featured-menu__cta-wrap">
+          <a class="featured-menu__cta" href="/menu.html">Full menu →</a>
+        </p>
+
+      </div>
+    </section>
+
+    <!-- Fold 3 — Story (cream) ───────────────────────────────────────── -->
+    <section class="story" aria-labelledby="story-heading">
+      <div class="story__inner">
+
+        <div class="story__text">
+          <span class="story__eyebrow">Our story</span>
+          <h2 class="story__heading" id="story-heading">From a small window. A tight menu. A lot of heart</h2>
+          <p class="story__body">
+            Favo started with a simple idea — that great coffee should be accessible to everyone. We are a small cafe based in Reyno Ridge, eMalahleni, and we show up at every service ready to make your cup the best part of your morning.
+          </p>
+          <p class="story__body">
+            Every drink is dialled in by the same small team. iXchangers making the coffee — with care, consistency, and the kind of welcome that turns first-timers into regulars. We keep things tight on purpose: a focused menu, a short window each day.
+          </p>
+        </div>
+
+        <figure class="story__photo" aria-label="Photo coming soon">
+          <span class="story__photo-placeholder">Photo coming soon</span>
+        </figure>
+
+      </div>
+    </section>
+
+    <!-- Fold 4 — Team (teal-deep) ────────────────────────────────────── -->
+    <section class="team" aria-labelledby="team-heading">
+      <div class="team__inner">
+        <span class="team__eyebrow">The people</span>
+        <h2 class="team__heading" id="team-heading">The team behind the cup</h2>
+        <ul class="team__grid" role="list">
+
+          <li class="team-member">
+            <h3 class="team-member__name">Louis van der Westhuizen</h3>
+            <p class="team-member__role">Barista</p>
+            <p class="team-member__bio">Louis brings precision and care to every cup. His cappuccinos are the highlight of every morning service at Favo.</p>
+          </li>
+
+          <li class="team-member">
+            <h3 class="team-member__name">Nkuleko Ncgobo</h3>
+            <p class="team-member__role">Barista</p>
+            <p class="team-member__bio">Nkuleko's energy sets the tone for the whole team. His mocha is the one regulars keep coming back for.</p>
+          </li>
+
+          <li class="team-member">
+            <h3 class="team-member__name">Thandeka Mathibela</h3>
+            <p class="team-member__role">Barista</p>
+            <p class="team-member__bio">Thandeka keeps the team smiling and the chai lattes flowing. She makes every customer feel right at home.</p>
+          </li>
+
+        </ul>
+      </div>
+    </section>
+
+    <!-- Fold 5 — Untracked (plum) ────────────────────────────────────── -->
+    <section class="untracked" aria-labelledby="untracked-heading">
+      <div class="untracked__inner">
+        <div class="untracked__text">
+          <span class="untracked__eyebrow">Where else to find us</span>
+          <h2 class="untracked__heading" id="untracked-heading">Catch us at Untracked Church</h2>
+          <p class="untracked__body">
+            Favo's services are also available at the monthly Untracked Church service. Stamp earnings still apply when you order with us there. Order-ahead is not available for Untracked events.
+          </p>
+        </div>
+        <a class="untracked__btn" href="https://hofmi.net/untracked/" target="_blank" rel="noopener">Event info →</a>
+      </div>
+    </section>
+
+    <!-- Fold 6 — Loyalty CTA (cream) ────────────────────────────────── -->
+    <section class="loyalty-cta" aria-labelledby="loyalty-cta-heading">
+      <div class="loyalty-cta__inner">
+        <span class="loyalty-cta__eyebrow">Favo Rewards</span>
+        <h2 class="loyalty-cta__heading" id="loyalty-cta-heading">Every cup earns you more</h2>
+
+        <div class="loyalty-cta__stamps" role="img" aria-label="9 empty stamp spaces — collect stamps toward a free coffee">
+          <span class="loyalty-cta__stamp" aria-hidden="true"></span>
+          <span class="loyalty-cta__stamp" aria-hidden="true"></span>
+          <span class="loyalty-cta__stamp" aria-hidden="true"></span>
+          <span class="loyalty-cta__stamp" aria-hidden="true"></span>
+          <span class="loyalty-cta__stamp" aria-hidden="true"></span>
+          <span class="loyalty-cta__stamp" aria-hidden="true"></span>
+          <span class="loyalty-cta__stamp" aria-hidden="true"></span>
+          <span class="loyalty-cta__stamp" aria-hidden="true"></span>
+          <span class="loyalty-cta__stamp" aria-hidden="true"></span>
+        </div>
+
+        <p class="loyalty-cta__stamp-note">9 stamps, 10th coffee free. No tiers, no fuss.</p>
+        <a class="loyalty-cta__btn" href="/login.html#register">Join rewards</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Footer ──────────────────────────────────────────────────────── -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="site-footer__inner">
+
+      <div class="site-footer__brand">
+        <a class="site-footer__logo" href="/" aria-label="Favo Cafe home">
+          <img src="/assets/icons/favo-logo.svg" alt="Favo Cafe" height="36">
+        </a>
+        <p class="site-footer__tagline">Good coffee. Good people. Reyno Ridge, eMalahleni.</p>
+      </div>
+
+      <nav class="site-footer__nav-col" aria-label="Site pages">
+        <span class="site-footer__nav-heading">Pages</span>
+        <ul class="site-footer__nav-list">
+          <li><a class="site-footer__link" href="/menu.html">Menu</a></li>
+          <li><a class="site-footer__link" href="/loyalty.html">Rewards</a></li>
+          <li><a class="site-footer__link" href="/contact.html">Contact</a></li>
+          <li><a class="site-footer__link" href="/order.html">Order Ahead</a></li>
+        </ul>
+      </nav>
+
+      <address class="site-footer__contact">
+        <span class="site-footer__contact-heading">Find us</span>
+        <p>7 Duiker St, Reyno Ridge</p>
+        <p>eMalahleni, 1049</p>
+        <a href="tel:+27136924232">+27 13 692 4232</a>
+      </address>
+
+    </div>
+
+    <div class="site-footer__bottom">
+      <p class="site-footer__copy">&copy; 2026 Favo Cafe. All rights reserved.</p>
+      <a class="site-footer__admin-link" href="/login.html">Staff login</a>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+  <script src="/js/menu.js"></script>
+</body>
+</html>

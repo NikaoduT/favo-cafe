@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: favo-cafe
+    runtime: node
+    region: frankfurt          # closest to South Africa; switch to oregon if preferred
+    plan: starter              # free tier — upgrade to starter+ for persistent disk SLA
+    buildCommand: npm install
+    startCommand: npm start
+
+    # Persistent disk — required to keep SQLite data between deploys
+    disk:
+      name: favo-db
+      mountPath: /data
+      sizeGB: 1
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000            # Render assigns this automatically
+      - key: DB_PATH
+        value: /data/favo.db   # persistent disk path
+      - key: JWT_SECRET
+        generateValue: true    # Render generates a random secret on first deploy
+      - key: JWT_EXPIRES_IN
+        value: 8h
+      # Add these manually in the Render dashboard after creating the service:
+      # YOCO_SECRET_KEY     — from portal.yoco.com
+      # YOCO_WEBHOOK_SECRET — set in Yoco webhook settings

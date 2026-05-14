@@ -75,10 +75,13 @@ const run = async (sql, params = []) => {
  * @param {string} sql - semicolon-separated SQL statements
  */
 const exec = async (sql) => {
-  const statements = sql
+  // Strip single-line comments before splitting so comment blocks
+  // don't accidentally become the "start" of a statement chunk
+  const stripped = sql.replace(/--[^\n]*/g, '');
+  const statements = stripped
     .split(';')
     .map(s => s.trim())
-    .filter(s => s.length > 0 && !s.startsWith('--') && !s.startsWith('PRAGMA'));
+    .filter(s => s.length > 0 && !/^pragma/i.test(s));
   for (const stmt of statements) {
     await getClient().execute(stmt);
   }

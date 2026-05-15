@@ -40,10 +40,20 @@ const getClient = () => {
  * @param {Array}  params
  * @returns {Promise<Array>}
  */
-const normRow = (r) => { if (!r) return r; const o = {}; for (const [k,v] of Object.entries(r)) o[k] = typeof v === 'bigint' ? Number(v) : v; return o; };
+// Convert any BigInt values in a row to regular Numbers
+const normRow = (row) => {
+  if (!row || typeof row !== 'object') return row;
+  const out = {};
+  for (const [k, v] of Object.entries(row)) {
+    out[k] = typeof v === 'bigint' ? Number(v) : v;
+  }
+  return out;
+};
+
 const all = async (sql, params = []) => {
-      return result.rows.map(normRow);
-  
+  const result = await getClient().execute({ sql, args: params });
+  return result.rows.map(normRow);
+};
 
 /**
  * Run a SELECT and return the first row (or null).
@@ -53,7 +63,7 @@ const all = async (sql, params = []) => {
  */
 const get = async (sql, params = []) => {
   const result = await getClient().execute({ sql, args: params });
-      return result.rows[0] ? normRow(result.rows[0]) : null;
+  return result.rows[0] ? normRow(result.rows[0]) : null;
 };
 
 /**
@@ -65,7 +75,7 @@ const get = async (sql, params = []) => {
 const run = async (sql, params = []) => {
   const result = await getClient().execute({ sql, args: params });
   return {
-        lastInsertRowid: result.lastInsertRowid !== undefined ? Number(result.lastInsertRowid) : undefined,
+    lastInsertRowid: result.lastInsertRowid !== undefined ? Number(result.lastInsertRowid) : undefined,
     changes:         result.rowsAffected,
   };
 };

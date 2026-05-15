@@ -16,4 +16,8 @@ const requestLogger = (req, res, next) => {
   next();
 };
 
-module.exports = { requestLogger };
+const info  = (...args) => { if (process.env.NODE_ENV !== 'production') console.log('[INFO]', ...args); };
+const error = (...args) => console.error('[ERROR]', ...args);
+const warn  = (...args) => console.warn('[WARN]', ...args);
+
+module.exports = { requestLogger, info, error, warn };

@@ -8,9 +8,14 @@ router.use(requireAuth);
 
 /**
  * GET /api/customers
- * Admin only. Query: ?search=name_or_email_or_phone
+ * Admin: full list. Barista: search-only (requires ?search= param).
  */
-router.get('/', requireRole('admin'), async (req, res) => {
+router.get('/', requireRole('admin', 'barista'), async (req, res) => {
+  // Baristas can only search — not browse the full list
+  if (req.user.role === 'barista' && !req.query.search) {
+    return res.json([]);
+  }
+
   let sql   = `SELECT id, first_name, last_name, email, phone, stamp_count, joined_at
                FROM customers`;
   const params = [];

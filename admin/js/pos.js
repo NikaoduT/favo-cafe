@@ -45,7 +45,7 @@
   let pendingSelections = new Map();
 
   /** @type {Set<number>} Active toggle modifier IDs */
-  let pendingToggles = new Set();
+  let pendingToggles = new Map();
 
   // ── DOM refs ───────────────────────────────────────────────────────────────
 
@@ -111,15 +111,12 @@
   };
 
   /**
-   * Return modifier groups applicable to an item's category.
-   * @param {string} category
+   * Return modifier groups for a menu item.
+   * All Favo menu items are drinks — every item uses all modifier groups.
+   * (Category column was removed in schema v3.)
    * @returns {Array}
    */
-  const getGroupsForCategory = (category) => {
-    const drinkCategories = ['espresso', 'filter', 'cold', 'tea'];
-    if (!drinkCategories.includes(category)) return [];
-    return modifierGroups;
-  };
+  const getGroupsForCategory = () => modifierGroups;
 
   // ── Load menu ──────────────────────────────────────────────────────────────
 
@@ -207,17 +204,16 @@
     }
 
     menuGrid.innerHTML = filtered.map(item => {
-      const inCart      = cart.some(c => c.item.id === item.id);
-      const hasModifiers = getGroupsForCategory(item.category).length > 0;
+      const inCart       = cart.some(c => c.item.id === item.id);
+      const hasModifiers = getGroupsForCategory().length > 0;
       return `
         <article
           class="pos-item${inCart ? ' pos-item--in-cart' : ''}"
           data-id="${item.id}"
           role="button"
           tabindex="0"
-          aria-label="${hasModifiers ? 'Customise and add' : 'Add'} ${item.name} to cart"
+          aria-label="${hasModifiers ? 'Customise and add' : 'Add'} ${item.name} to order"
         >
-          <span class="pos-item__category">${titleCase(item.category ?? '')}</span>
           <span class="pos-item__name">${item.name}</span>
           <span class="pos-item__price">${formatRand(item.price_cents)}</span>
           ${hasModifiers ? '<span class="pos-item__custom-hint">Tap to customise</span>' : ''}
@@ -244,7 +240,7 @@
    * @param {object} item
    */
   const openModifierSheet = (item) => {
-    const groups = getGroupsForCategory(item.category);
+    const groups = getGroupsForCategory();
 
     if (!groups.length) {
       commitAddToCart(item, []);
@@ -280,19 +276,18 @@
           <div class="pos-mod-group" data-group-id="${group.id}">
             <span class="pos-mod-group__label">${group.name}</span>
             <div class="pos-mod-group__options">
-              ${group.modifiers.map(mod => `
-                <button
-                  class="pos-mod-toggle${pendingToggles.has(mod.id) ? ' pos-mod-toggle--selected' : ''}"
-                  data-group="${group.id}"
-                  data-mod="${mod.id}"
-                  data-delta="${mod.priceDeltaCents}"
-                  data-type="toggle"
-                  type="button"
-                >
-                  <span>${mod.name}${mod.priceDeltaCents > 0 ? ` (+${formatRand(mod.priceDeltaCents)})` : ''}</span>
-                  <span class="pos-mod-toggle__check">${pendingToggles.has(mod.id) ? '✓' : ''}</span>
-                </button>
-              `).join('')}
+              ${group.modifiers.map(mod => {
+                const qty = pendingToggles.get(mod.id) ?? 0;
+                return `
+                <div class="pos-mod-counter" data-group="${group.id}" data-mod="${mod.id}" data-delta="${mod.priceDeltaCents}">
+                  <span class="pos-mod-counter__name">${mod.name}${mod.priceDeltaCents > 0 ? ` (+${formatRand(mod.priceDeltaCents)} each)` : ''}</span>
+                  <div class="pos-mod-counter__controls">
+                    <button class="pos-mod-counter__btn pos-mod-counter__btn--minus" data-mod="${mod.id}" type="button" ${qty === 0 ? 'disabled' : ''}>−</button>
+                    <span class="pos-mod-counter__qty">${qty}</span>
+                    <button class="pos-mod-counter__btn pos-mod-counter__btn--plus" data-mod="${mod.id}" type="button">+</button>
+                  </div>
+                </div>`;
+              }).join('')}
             </div>
           </div>`;
       }
@@ -336,19 +331,29 @@
       });
     });
 
-    // Bind toggle clicks
-    modifierBody.querySelectorAll('[data-type="toggle"]').forEach(btn => {
+    // Bind counter +/- clicks (multiple modifiers like Extra Shot)
+    modifierBody.querySelectorAll('.pos-mod-counter__btn--plus').forEach(btn => {
       btn.addEventListener('click', () => {
-        const modId = parseInt(btn.dataset.mod);
-        if (pendingToggles.has(modId)) {
-          pendingToggles.delete(modId);
-          btn.classList.remove('pos-mod-toggle--selected');
-          btn.querySelector('.pos-mod-toggle__check').textContent = '';
-        } else {
-          pendingToggles.add(modId);
-          btn.classList.add('pos-mod-toggle--selected');
-          btn.querySelector('.pos-mod-toggle__check').textContent = '✓';
-        }
+        const modId   = parseInt(btn.dataset.mod);
+        const current = pendingToggles.get(modId) ?? 0;
+        pendingToggles.set(modId, current + 1);
+        const counter = btn.closest('.pos-mod-counter');
+        counter.querySelector('.pos-mod-counter__qty').textContent = current + 1;
+        counter.querySelector('.pos-mod-counter__btn--minus').disabled = false;
+        updateModifierAddLabel();
+      });
+    });
+
+    modifierBody.querySelectorAll('.pos-mod-counter__btn--minus').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const modId   = parseInt(btn.dataset.mod);
+        const current = pendingToggles.get(modId) ?? 0;
+        if (current <= 0) return;
+        const next = current - 1;
+        if (next === 0) pendingToggles.delete(modId); else pendingToggles.set(modId, next);
+        const counter = btn.closest('.pos-mod-counter');
+        counter.querySelector('.pos-mod-counter__qty').textContent = next;
+        btn.disabled = next === 0;
         updateModifierAddLabel();
       });
     });
@@ -369,7 +374,8 @@
         if (mod) delta += mod.priceDeltaCents;
       } else {
         group.modifiers.forEach(mod => {
-          if (pendingToggles.has(mod.id)) delta += mod.priceDeltaCents;
+          const qty = pendingToggles.get(mod.id) ?? 0;
+          if (qty > 0) delta += mod.priceDeltaCents * qty;
         });
       }
     });
@@ -412,7 +418,8 @@
         }
       } else {
         group.modifiers.forEach(mod => {
-          if (pendingToggles.has(mod.id)) {
+          const qty = pendingToggles.get(mod.id) ?? 0;
+          for (let i = 0; i < qty; i++) {
             selectedMods.push({ groupId: group.id, modId: mod.id, name: mod.name, delta: mod.priceDeltaCents, type: 'toggle' });
           }
         });
@@ -491,14 +498,26 @@
 
     cartItemsEl.innerHTML = cart.map(({ item, quantity, mods, priceDelta }, idx) => {
       const linePrice  = (item.price_cents + priceDelta) * quantity;
-      const modLabel   = mods.filter(m => m.type === 'single').map(m => m.name).join(', ');
-      const toggleLabel = mods.filter(m => m.type === 'toggle').map(m => m.name).join(', ');
-      const modSummary = [modLabel, toggleLabel].filter(Boolean).join(' · ');
+
+      // Milk selection (single-select)
+      const milkMod = mods.find(m => m.type === 'single');
+      const milkLabel = milkMod && milkMod.name !== 'Full Cream' ? milkMod.name : '';
+
+      // Extras — group duplicates into "Extra Shot ×2"
+      const extraCounts = {};
+      mods.filter(m => m.type === 'toggle').forEach(m => {
+        extraCounts[m.name] = (extraCounts[m.name] || 0) + 1;
+      });
+      const extraLabel = Object.entries(extraCounts)
+        .map(([name, count]) => count > 1 ? `${name} ×${count}` : name)
+        .join(', ');
+
+      const modSummary = [milkLabel, extraLabel].filter(Boolean).join(' · ');
 
       return `
         <div class="pos-cart-item">
           <div class="pos-cart-item__info">
-            <span class="pos-cart-item__name">${item.name}</span>
+            <span class="pos-cart-item__name">${item.name}${quantity > 1 ? ` ×${quantity}` : ''}</span>
             ${modSummary ? `<span class="pos-cart-item__mods">${modSummary}</span>` : ''}
           </div>
           <div class="pos-cart-item__qty">
@@ -507,12 +526,22 @@
             <button class="pos-cart-item__qty-btn" data-idx="${idx}" data-delta="1" type="button" aria-label="Add one more">+</button>
           </div>
           <span class="pos-cart-item__price">${formatRand(linePrice)}</span>
+          <button class="pos-cart-item__remove" data-idx="${idx}" type="button" aria-label="Remove item" title="Remove from order">✕</button>
         </div>`;
     }).join('');
 
     cartItemsEl.querySelectorAll('.pos-cart-item__qty-btn').forEach(btn => {
       btn.addEventListener('click', () =>
         updateCartQty(parseInt(btn.dataset.idx), parseInt(btn.dataset.delta)));
+    });
+
+    // × remove button — removes item entirely
+    cartItemsEl.querySelectorAll('.pos-cart-item__remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        cart.splice(parseInt(btn.dataset.idx), 1);
+        renderCart();
+        renderMenu();
+      });
     });
 
     updateTotals();
@@ -776,8 +805,6 @@
 
   // ── Submit order ───────────────────────────────────────────────────────────
 
-  chargeBtn?.addEventListener('click', submitOrder);
-
   /**
    * POST the order to /api/orders, then show the receipt on success.
    */
@@ -838,6 +865,9 @@
     errEl.textContent = message;
     setTimeout(() => { errEl.textContent = ''; }, 5000);
   };
+
+  // Wire submit button now that submitOrder is defined
+  chargeBtn?.addEventListener('click', submitOrder);
 
   // ── Receipt ────────────────────────────────────────────────────────────────
 

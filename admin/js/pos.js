@@ -1,5 +1,4 @@
 /**
- * pos.js — Point of Sale module for Favo Cafe & Roastery
  * Handles menu display, modifier selection, cart management,
  * customer lookup, stamp-based loyalty, and order submission.
  *

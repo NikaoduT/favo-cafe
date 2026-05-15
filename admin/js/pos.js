@@ -277,7 +277,7 @@
             <span class="pos-mod-group__label">${group.name}</span>
             <div class="pos-mod-group__options">
               ${group.modifiers.map(mod => {
-                const qty = pendingToggles.get(mod.id) ?? 0;
+                const qty = (pendingToggles instanceof Map) ? (pendingToggles.get(mod.id) ?? 0) : (pendingToggles.has(mod.id) ? 1 : 0);
                 return `
                 <div class="pos-mod-counter" data-group="${group.id}" data-mod="${mod.id}" data-delta="${mod.priceDeltaCents}">
                   <span class="pos-mod-counter__name">${mod.name}${mod.priceDeltaCents > 0 ? ` (+${formatRand(mod.priceDeltaCents)} each)` : ''}</span>
@@ -374,7 +374,7 @@
         if (mod) delta += mod.priceDeltaCents;
       } else {
         group.modifiers.forEach(mod => {
-          const qty = pendingToggles.get(mod.id) ?? 0;
+          const qty = (pendingToggles instanceof Map) ? (pendingToggles.get(mod.id) ?? 0) : (pendingToggles.has(mod.id) ? 1 : 0);
           if (qty > 0) delta += mod.priceDeltaCents * qty;
         });
       }
@@ -418,7 +418,7 @@
         }
       } else {
         group.modifiers.forEach(mod => {
-          const qty = pendingToggles.get(mod.id) ?? 0;
+          const qty = (pendingToggles instanceof Map) ? (pendingToggles.get(mod.id) ?? 0) : (pendingToggles.has(mod.id) ? 1 : 0);
           for (let i = 0; i < qty; i++) {
             selectedMods.push({ groupId: group.id, modId: mod.id, name: mod.name, delta: mod.priceDeltaCents, type: 'toggle' });
           }
